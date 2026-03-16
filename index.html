@@ -40,7 +40,7 @@
 
         body {
             background-color: var(--light-bg);
-            color: #333;               /* สีตัวอักษรทั่วไป */
+            color: #ffffff;               /* สีตัวอักษรทั่วไป */
             overflow-x: hidden;         /* ป้องกันหน้าจอเลื่อนออกไปทางขวา */
             line-height: 1.6;           /* ระยะห่างบรรทัดอ่านง่าย */
         }
@@ -57,7 +57,7 @@
             top: 0; width: 100%;
             height: var(--nav-height);
             z-index: 2000;              /* ทำให้เมนูอยู่ชั้นบนสุดเสมอ */
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             transition: var(--transition);
         }
 
@@ -68,7 +68,7 @@
 
         .logo img {
             height: 80px;               /* ขนาดความสูงโลโก้ */
-            filter: drop-shadow(0 0 5px rgba(255,255,255,0.3)); /* เงารอบโลโก้ */
+            filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.3)); /* เงารอบโลโก้ */
         }
 
         .menu { display: flex; gap: 35px; } /* ระยะห่างระหว่างตัวเลือกเมนู */
@@ -123,10 +123,10 @@
         /* ปรับแต่งปุ่มติดต่อเรา */
         .btn-primary {
             padding: 16px 32px; background: var(--gold);
-            color: #000; border-radius: 50px; text-decoration: none;
+            color: #004ffa; border-radius: 50px; text-decoration: none;
             font-weight: 700; display: flex; align-items: center; gap: 10px;
             transition: var(--transition);
-            box-shadow: 0 10px 20px rgba(255, 204, 0, 0.3);
+            box-shadow: 0 10px 20px rgba(5, 50, 255, 0.3);
         }
 
         .btn-primary:hover {
@@ -192,7 +192,7 @@
         /* แถบรูปที่เลื่อนไปเรื่อยๆ (Infinite Loop) */
         .carousel-track {
             display: flex; gap: 20px;
-            animation: scroll 30s linear infinite; /* ความเร็วการเลื่อน 30 วินาที */
+            animation: scroll 50s linear infinite; /* ความเร็วการเลื่อน 50 วินาที */
             width: max-content;
         }
 
@@ -233,7 +233,7 @@
             transition: 0.3s; text-decoration: none;
         }
 
-        .float-phone { background: #28a745; } /* สีเขียวโทรศัพท์ */
+        .float-phone { background: #06c755; } /* สีเขียวโทรศัพท์ */
         .float-line { background: #06c755; }  /* สีเขียวไลน์ */
         .float-btn:hover { transform: scale(1.1); }
 
