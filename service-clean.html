@@ -9,14 +9,14 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        /* ================= ตัวแปรสีเน้นความสะอาด ================= */
+        /* ================= ตัวแปรสีควบคุมธีม ================= */
         :root {
-            --primary-dark: #01172b;    
-            --clean-blue: #00d2ff;      
-            --water-blue: #0973ff;      
-            --bg-soft: #f0f8ff;         
+            --primary-dark: #01172b;    /* น้ำเงินเข้มหลัก */
+            --clean-blue: #00d2ff;      /* ฟ้าใสสะอาด */
+            --water-blue: #0973ff;      /* น้ำเงินสว่าง */
+            --bg-soft: #f0f8ff;         /* พื้นหลังฟ้าอ่อน */
             --transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-            --nav-height: 80px;
+            --nav-height: 80px;         /* ความสูงเมนู */
         }
 
         /* ================= รีเซ็ตค่ามาตรฐาน ================= */
@@ -29,58 +29,70 @@
             background-color: var(--bg-soft);
             color: #333; line-height: 1.7;
             overflow-x: hidden;
+            padding-top: var(--nav-height); /* เว้นที่ให้เนื้อหาไม่จมใต้เมนู */
         }
 
         h1, h2, h3, .nav-logo { font-family: 'Chakra Petch', sans-serif; }
 
-        /* ================= Navbar (คงเดิม) ================= */
+        /* ================= Navbar แถวเดียว (Single Row Navbar) ================= */
         .navbar {
             display: flex; align-items: center; justify-content: space-between;
-            padding: 0 8%; background: var(--primary-dark);
+            padding: 0 5%; background: var(--primary-dark);
             height: var(--nav-height); width: 100%;
             position: fixed; top: 0; z-index: 2000;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
         }
 
+        /* ฝั่งซ้าย: โลโก้ */
         .nav-logo {
-            color: white; font-size: 24px; font-weight: 700;
+            color: white; font-size: 20px; font-weight: 700;
             text-decoration: none; display: flex; align-items: center; gap: 10px;
+            flex-shrink: 0;
+        }
+        .nav-logo img { height: 45px; }
+
+        /* ฝั่งขวา: ส่วนครอบเมนูบริการ (เลื่อนได้ในมือถือ) */
+        .service-nav-wrapper {
+            flex-grow: 1; display: flex; justify-content: flex-end;
+            overflow-x: auto; scrollbar-width: none; margin-left: 20px;
+        }
+        .service-nav-wrapper::-webkit-scrollbar { display: none; }
+
+        .service-nav { display: flex; gap: 8px; white-space: nowrap; }
+
+        .service-nav-item {
+            text-decoration: none; color: rgba(255, 255, 255, 0.8);
+            font-size: 13px; font-weight: 500; padding: 8px 15px;
+            border-radius: 50px; border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: var(--transition); display: flex; align-items: center; gap: 6px;
         }
 
-        .nav-logo img { height: 50px; }
-
-        .back-home {
-            color: white; text-decoration: none; font-weight: 500;
-            display: flex; align-items: center; gap: 8px;
-            transition: var(--transition); padding: 8px 18px;
-            border: 1px solid rgba(255,255,255,0.3); border-radius: 50px;
+        .service-nav-item:hover, .service-nav-item.active {
+            background: var(--clean-blue); color: white; border-color: var(--clean-blue);
         }
 
-        .back-home:hover { background: var(--clean-blue); border-color: var(--clean-blue); color: white; }
+        .service-nav-item.back-home { background: rgba(255, 255, 255, 0.1); }
 
-        /* ================= ส่วนหัว Header (คงเดิม) ================= */
+        /* ================= ส่วนหัว Header ================= */
         .header-clean {
-            padding: calc(var(--nav-height) + 70px) 8% 70px;
+            padding: 60px 8% 70px;
             background: linear-gradient(135deg, var(--primary-dark) 0%, var(--water-blue) 100%);
             color: white; text-align: center;
             border-bottom-right-radius: 80px;
         }
+        .header-clean h1 { font-size: clamp(28px, 5vw, 48px); margin-bottom: 20px; }
 
-        .header-clean h1 { font-size: clamp(30px, 5vw, 48px); margin-bottom: 20px; }
-        .header-clean p { max-width: 750px; margin: 0 auto; opacity: 0.9; font-size: 18px; }
+        /* ================= เนื้อหาหลัก ================= */
+        .container { padding: 60px 8%; max-width: 1200px; margin: 0 auto; }
 
-        .container { padding: 80px 8%; max-width: 1200px; margin: 0 auto; }
-
-        /* ================= ส่วนรายละเอียด (คงเดิม) ================= */
         .detail-row {
             display: grid; grid-template-columns: 1fr 1fr;
             gap: 60px; align-items: center; margin-bottom: 80px;
         }
 
         .detail-img img {
-            width: 100%; border-radius: 25px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-            border: 8px solid white;
+            width: 100%; height: auto; border-radius: 25px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1); border: 8px solid white;
         }
 
         .detail-text h2 { color: var(--water-blue); font-size: 32px; margin-bottom: 20px; }
@@ -88,7 +100,7 @@
         .clean-list li { display: flex; align-items: center; gap: 12px; margin-bottom: 15px; font-weight: 500; }
         .clean-list li i { color: var(--clean-blue); font-size: 22px; }
 
-        /* ================= ส่วนแพ็กเกจ (คงเดิม) ================= */
+        /* ================= มาตรฐานบริการ ================= */
         .package-title { text-align: center; margin-bottom: 50px; font-size: 32px; color: var(--primary-dark); }
         .package-grid {
             display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -96,54 +108,28 @@
         }
         .package-card {
             background: white; padding: 40px; border-radius: 30px;
-            text-align: center; transition: var(--transition);
-            border: 1px solid #e1eefb;
+            text-align: center; transition: var(--transition); border: 1px solid #e1eefb;
         }
         .package-card:hover { transform: translateY(-12px); box-shadow: 0 25px 50px rgba(0,115,255,0.1); }
         .package-card i { font-size: 50px; color: var(--water-blue); margin-bottom: 20px; display: block; }
 
-        /* ================= NEW: Gallery ส่วนแสดงรูปภาพเยอะๆ ================= */
-        .gallery-section {
-            padding: 40px 0 80px;
-        }
-
+        /* ================= Gallery ผลงาน (Masonry Layout) ================= */
         .gallery-grid {
-            display: columns;
-            columns: 3 300px; /* แบ่งเป็น 3 คอลัมน์ หรือขนาดขั้นต่ำ 300px */
-            column-gap: 20px;
+            display: columns; columns: 3 300px; column-gap: 20px; padding-bottom: 80px;
         }
-
         .gallery-item {
-            display: inline-block;
-            width: 100%;
-            margin-bottom: 20px;
-            border-radius: 15px;
-            overflow: hidden;
-            background: white;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
-            transition: var(--transition);
+            display: inline-block; width: 100%; margin-bottom: 20px;
+            border-radius: 15px; overflow: hidden; background: white;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05); transition: var(--transition);
             border: 4px solid white;
         }
+        .gallery-item img { width: 100%; display: block; transition: 0.5s ease; }
+        .gallery-item:hover { transform: scale(1.02); border-color: var(--clean-blue); }
+        .gallery-item:hover img { transform: scale(1.05); }
 
-        .gallery-item img {
-            width: 100%;
-            display: block;
-            transition: 0.5s ease;
-        }
-
-        .gallery-item:hover {
-            transform: scale(1.02);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
-            border-color: var(--clean-blue);
-        }
-
-        .gallery-item:hover img {
-            transform: scale(1.05);
-        }
-
-        /* ================= ส่วนปุ่มจอง (คงเดิม) ================= */
+        /* ================= ส่วนติดต่อโทร (CTA) ================= */
         .cta-box {
-            background: white; padding: 50px; border-radius: 40px;
+            background: white; padding: 50px 20px; border-radius: 40px;
             text-align: center; border: 2px dashed var(--clean-blue);
         }
         .btn-book {
@@ -151,19 +137,19 @@
             padding: 18px 40px; background: var(--water-blue);
             color: white; text-decoration: none; border-radius: 50px;
             font-weight: 700; font-size: 19px; transition: var(--transition);
-            margin-top: 20px;
         }
         .btn-book:hover { transform: scale(1.05); background: var(--primary-dark); }
 
-        /* ================= Responsive ================= */
-        @media (max-width: 850px) {
+        /* ================= Responsive ปรับแต่ง iPhone/มือถือ ================= */
+        @media (max-width: 992px) {
+            .nav-logo span { display: none; } /* ซ่อนชื่อร้านในมือถือ */
+            .navbar { padding: 0 15px; }
+            .service-nav-wrapper { justify-content: flex-start; }
+            
             .detail-row { grid-template-columns: 1fr; text-align: center; gap: 40px; }
             .detail-row .detail-img { order: -1; }
             .clean-list li { justify-content: center; }
-            .navbar { padding: 0 5%; }
-            .nav-logo span { display: none; }
-            .header-clean { border-bottom-right-radius: 40px; }
-            .gallery-grid { columns: 2 150px; } /* บนมือถือแสดง 2 คอลัมน์ */
+            .gallery-grid { columns: 2 150px; } /* มือถือแสดง 2 คอลัมน์ */
         }
     </style>
 </head>
@@ -175,14 +161,37 @@
             <img src="IM/Adobe Express 2026-03-13 16.31.52.png" alt="Logo">
             <span>ศิวกรแอร์ เซอร์วิส</span>
         </a>
-        <a href="index.html" class="back-home">
-            <i class="fas fa-home"></i> หน้าหลัก
-        </a>
+
+        <div class="service-nav-wrapper">
+            <div class="service-nav">
+                <a href="service-install.html" class="service-nav-item">
+                    <i class="fas fa-snowflake"></i> ติดตั้งแอร์
+                </a>
+                <a href="service-clean.html" class="service-nav-item active">
+                    <i class="fas fa-pump-soap"></i> ล้างแอร์
+                </a>
+                <a href="service-repair.html" class="service-nav-item">
+                    <i class="fas fa-tools"></i> ซ่อมบำรุง
+                </a>
+                <a href="service-electric.html" class="service-nav-item">
+                    <i class="fas fa-bolt"></i> งานไฟฟ้า
+                </a>
+                <a href="service-cctv.html" class="service-nav-item">
+                    <i class="fas fa-video"></i> กล้องวงจรปิด
+                </a>
+                <a href="service-parts.html" class="service-nav-item">
+                    <i class="fas fa-box-open"></i> อะไหล่แท้
+                </a>
+                <a href="index.html" class="service-nav-item back-home">
+                    <i class="fas fa-home"></i> หน้าหลัก
+                </a>
+            </div>
+        </div>
     </nav>
 
     <header class="header-clean">
         <h1>บริการล้างแอร์สะอาดลึก ฆ่าเชื้อโรค</h1>
-        <p>คืนอากาศบริสุทธิ์สู่บ้านคุณ ด้วยนวัตกรรมการล้างแบบละเอียด พร้อมกำจัดแบคทีเรียและเชื้อราสะสมในคอยล์เย็น</p>
+        <p>คืนอากาศบริสุทธิ์สู่บ้านคุณ ด้วยนวัตกรรมการล้างแบบละเอียด มาตรฐานปี 2026</p>
     </header>
 
     <main class="container">
@@ -190,16 +199,16 @@
         <section class="detail-row">
             <div class="detail-text">
                 <h2>สะอาดกว่าเดิม.. เย็นขึ้นเห็นๆ</h2>
-                <p>เราใส่ใจทุกรายละเอียดในการล้าง ไม่ว่าจะเป็นการฉีดล้างคอยล์เย็นด้วยแรงดันน้ำที่เหมาะสม และการทำความสะอาดคอยล์ร้อนภายนอกเพื่อช่วยระบายความร้อน</p>
+                <p>เราใส่ใจทุุกขั้นตอน ตั้งแต่การฉีดล้างคอยล์เย็นด้วยแรงดันที่เหมาะสม ไปจนถึงการฆ่าเชื้อโรค เพื่อสุขภาพที่ดีของผู้อยู่อาศัย</p>
                 <ul class="clean-list">
                     <li><i class="fas fa-virus-slash"></i> ฉีดพ่นน้ำยาฆ่าเชื้อแบคทีเรียและเชื้อรา</li>
-                    <li><i class="fas fa-tint"></i> ล้างถาดน้ำทิ้งและเป่าท่อน้ำทิ้งป้องกันน้ำรั่ว</li>
-                    <li><i class="fas fa-bolt"></i> ตรวจเช็คกระแสไฟและแรงดันน้ำยาฟรี</li>
-                    <li><i class="fas fa-leaf"></i> ลดกลิ่นอับ และช่วยประหยัดค่าไฟได้ถึง 10-15%</li>
+                    <li><i class="fas fa-tint"></i> ล้างถาดน้ำทิ้งและเป่าท่อป้องกันน้ำรั่ว</li>
+                    <li><i class="fas fa-bolt"></i> ตรวจเช็คระบบไฟฟ้าและน้ำยาแอร์ฟรี</li>
+                    <li><i class="fas fa-leaf"></i> ลดกลิ่นอับและช่วยประหยัดค่าไฟ</li>
                 </ul>
             </div>
             <div class="detail-img">
-                <img src="IM/173657_0.jpg" alt="งานล้างแอร์มาตรฐาน">
+                <img src="IM/173657_0.jpg" alt="งานล้างแอร์">
             </div>
         </section>
 
@@ -208,35 +217,32 @@
             <div class="package-card">
                 <i class="fas fa-soap"></i>
                 <h3>ล้างสะอาดทุุกชิ้นส่วน</h3>
-                <p>ถอดประกอบหน้ากากและฟิลเตอร์ออกมาล้างด้วยน้ำยาเฉพาะทางทุุกครั้ง</p>
+                <p>ถอดประกอบล้างทุุกชิ้นด้วยน้ำยาเฉพาะทางทุุกครั้ง</p>
             </div>
             <div class="package-card">
                 <i class="fas fa-shield-virus"></i>
                 <h3>น้ำยาฆ่าเชื้อมาตรฐาน</h3>
-                <p>ใช้น้ำยาฆ่าเชื้อเกรดพรีเมียม ปลอดภัยต่อเด็ก ผู้สูงอายุ และสัตว์เลี้ยง</p>
+                <p>ใช้เคมีภัณฑ์คุณภาพสูง ปลอดภัยต่อทุุกคนในบ้าน</p>
             </div>
             <div class="package-card">
                 <i class="fas fa-user-shield"></i>
                 <h3>รับประกันงานหลังล้าง</h3>
-                <p>กรณีมีอาการน้ำหยดหลังล้าง เราเข้าดูแลให้ทันทีโดยไม่มีค่าใช้จ่าย</p>
+                <p>ดูแลต่อเนื่องหลังงานเสร็จ หากพบปัญหาเข้าแก้ไขทันที</p>
             </div>
         </section>
 
         <h2 class="package-title">ภาพผลงานความประทับใจ</h2>
-        <p style="text-align: center; margin-top: -40px; margin-bottom: 40px; color: #666;">ทีมงานศิวกรแอร์การันตีคุณภาพ ส่งมอบงานสะอาดทุกวัน</p>
+        <p style="text-align: center; margin-top: -40px; margin-bottom: 40px; color: #666;">เราส่งมอบงานคุณภาพให้ลูกค้าในทุุกวัน</p>
         
-        <section class="gallery-section">
-            <div class="gallery-grid">
-                <div class="gallery-item"><img src="IM/1755225776849.jpg" alt="ผลงานล้างแอร์"></div>
-                <div class="gallery-item"><img src="IM/1755225802976.jpg" alt="ผลงานล้างแอร์"></div>
-                <div class="gallery-item"><img src="IM/1755230005166.jpg" alt="ผลงานล้างแอร์"></div>
-                
-                <div class="gallery-item"><img src="IM/173657_0.jpg" alt="ผลงานล้างแอร์"></div>
-                <div class="gallery-item"><img src="IM/1755225776849.jpg" alt="ผลงานล้างแอร์"></div>
-                <div class="gallery-item"><img src="IM/1755225802976.jpg" alt="ผลงานล้างแอร์"></div>
-                
-                </div>
-        </section>
+        <section class="gallery-grid">
+            <div class="gallery-item"><img src="IM/1755225776849.jpg" alt="ผลงาน"></div>
+            <div class="gallery-item"><img src="IM/1755225802976.jpg" alt="ผลงาน"></div>
+            <div class="gallery-item"><img src="IM/1755230005166.jpg" alt="ผลงาน"></div>
+            <div class="gallery-item"><img src="IM/173657_0.jpg" alt="ผลงาน"></div>
+            <div class="gallery-item"><img src="IM/1755225776849.jpg" alt="ผลงาน"></div>
+            <div class="gallery-item"><img src="IM/1755225802976.jpg" alt="ผลงาน"></div>
+            </section>
+
         <section class="cta-box">
             <h2>ให้แอร์บ้านคุณ สะอาดเหมือนใหม่วันนี้</h2>
             <p>จองคิวง่ายๆ พร้อมรับคำปรึกษาจากช่างผู้เชี่ยวชาญได้โดยตรง</p>

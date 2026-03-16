@@ -9,18 +9,18 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        /* ================= ตัวแปรสีควบคุมธีม (Theme Variables) ================= */
+        /* ================= ตัวแปรสีควบคุมธีม ================= */
         :root {
-            --primary-blue: #01172b;    /* น้ำเงินเข้มหลัก */
-            --accent-blue: #0973ff;     /* ฟ้าเทคโนโลยี */
-            --gold: #e0d3ce;            /* ทองนวล */
-            --light-bg: #f8fbff;        /* พื้นหลังสีฟ้าอ่อนสว่าง */
+            --primary-blue: #01172b;
+            --accent-blue: #0973ff;
+            --gold: #e0d3ce;
+            --light-bg: #f8fbff;
             --white: #ffffff;
             --transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-            --nav-height: 80px;         /* ความสูงเมนูย่อส่วนจากหน้าแรก */
+            --nav-height: 80px; /* ปรับความสูง Navbar ให้คงที่ */
         }
 
-        /* ================= รีเซ็ตค่ามาตรฐาน (Base Styles) ================= */
+        /* ================= รีเซ็ตค่ามาตรฐาน ================= */
         * {
             margin: 0; padding: 0; box-sizing: border-box;
             font-family: 'Prompt', sans-serif;
@@ -30,47 +30,97 @@
             background-color: var(--light-bg);
             color: #333; line-height: 1.7;
             overflow-x: hidden;
+            padding-top: var(--nav-height); /* เว้นที่ให้เนื้อหาไม่จมใต้ Navbar */
         }
 
         h1, h2, h3, .nav-logo { font-family: 'Chakra Petch', sans-serif; }
 
-        /* ================= เมนูนำทางย่อส่วน (Sub-page Navbar) ================= */
+        /* ================= Navbar แบบแถวเดียว (Single Row Navbar) ================= */
         .navbar {
-            display: flex; align-items: center; justify-content: space-between;
-            padding: 0 8%; background: var(--primary-blue);
-            height: var(--nav-height); width: 100%;
-            position: fixed; top: 0; z-index: 2000;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between; /* แยกซ้าย-ขวา */
+            padding: 0 5%;
+            background: var(--primary-dark, #01172b);
+            height: var(--nav-height);
+            width: 100%;
+            position: fixed;
+            top: 0;
+            z-index: 2000;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
         }
 
+        /* ฝั่งซ้าย: โลโก้ */
         .nav-logo {
-            color: white; font-size: 24px; font-weight: 700;
-            text-decoration: none; display: flex; align-items: center; gap: 10px;
+            color: white;
+            font-size: 20px;
+            font-weight: 700;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-shrink: 0; /* ป้องกันโลโก้ถูกบีบ */
         }
 
-        .nav-logo img { height: 50px; }
+        .nav-logo img { height: 45px; }
 
-        .back-btn {
-            color: white; text-decoration: none; font-weight: 500;
-            display: flex; align-items: center; gap: 8px;
-            transition: var(--transition); padding: 8px 16px;
-            border: 1px solid rgba(255,255,255,0.2); border-radius: 50px;
+        /* ฝั่งขวา: ส่วนครอบเมนูบริการ (Wrapper) */
+        .service-nav-wrapper {
+            flex-grow: 1;
+            display: flex;
+            justify-content: flex-end; /* ดันเมนูไปชิดขวา */
+            overflow-x: auto; /* สำหรับมือถือถ้าเมนูยาวเกินจอ */
+            scrollbar-width: none; /* ซ่อน scrollbar (Firefox) */
+            margin-left: 20px;
+        }
+        
+        .service-nav-wrapper::-webkit-scrollbar { display: none; } /* ซ่อน scrollbar (Chrome/Safari) */
+
+        /* รายการปุ่มเมนู */
+        .service-nav {
+            display: flex;
+            gap: 8px; /* ระยะห่างระหว่างปุ่ม */
+            white-space: nowrap; /* บังคับให้อยู่ในบรรทัดเดียวกันเสมอ */
         }
 
-        .back-btn:hover { background: var(--accent-blue); border-color: var(--accent-blue); }
+        .service-nav-item {
+            text-decoration: none;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 13px;
+            font-weight: 500;
+            padding: 8px 15px;
+            border-radius: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
 
-        /* ================= หัวข้อหน้าบริการ (Service Hero) ================= */
+        /* สถานะปุ่มที่ถูกเลือก หรือเมื่อเอาเมาส์ไปชี้ */
+        .service-nav-item:hover, .service-nav-item.active {
+            background: var(--accent-blue);
+            color: white;
+            border-color: var(--accent-blue);
+        }
+
+        /* ตกแต่งปุ่มกลับหน้าหลักให้เด่นต่างออกไป */
+        .service-nav-item.back-home {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        /* ================= หัวข้อหน้าบริการ (Header) ================= */
         .service-header {
-            padding: calc(var(--nav-height) + 60px) 8% 60px;
+            padding: 60px 8% 40px;
             background: linear-gradient(135deg, var(--primary-blue), #042a4d);
             color: white; text-align: center;
         }
 
-        .service-header h1 { font-size: clamp(32px, 5vw, 48px); margin-bottom: 20px; }
-        .service-header p { max-width: 700px; margin: 0 auto; opacity: 0.8; font-size: 18px; }
+        .service-header h1 { font-size: clamp(28px, 5vw, 42px); margin-bottom: 10px; }
 
-        /* ================= เนื้อหาหลัก (Main Content) ================= */
-        .content-section { padding: 80px 8%; max-width: 1200px; margin: 0 auto; }
+        /* ================= เนื้อหาหลัก (Content) ================= */
+        .content-section { padding: 60px 8%; max-width: 1200px; margin: 0 auto; }
 
         .detail-grid {
             display: grid; grid-template-columns: 1fr 1fr;
@@ -84,9 +134,6 @@
         }
 
         .detail-text h2 { color: var(--primary-blue); font-size: 32px; margin-bottom: 25px; }
-        .detail-text p { margin-bottom: 20px; color: #555; }
-
-        /* รายการจุดเด่น (Features List) */
         .feature-list { list-style: none; margin-top: 30px; }
         .feature-list li {
             display: flex; align-items: center; gap: 15px;
@@ -94,9 +141,7 @@
         }
         .feature-list li i { color: var(--accent-blue); font-size: 20px; }
 
-        /* ================= ขั้นตอนการทำงาน (Process Step) ================= */
         .process-title { text-align: center; margin-bottom: 50px; font-size: 32px; color: var(--primary-blue); }
-        
         .process-grid {
             display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 30px;
@@ -109,45 +154,33 @@
         }
 
         .process-card:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(9,115,255,0.1); }
-
         .process-card .step-num {
-            width: 50px; height: 50px; background: var(--accent-blue);
+            width: 40px; height: 40px; background: var(--accent-blue);
             color: white; border-radius: 50%; display: flex;
             align-items: center; justify-content: center;
-            margin: 0 auto 20px; font-weight: 700; font-size: 20px;
+            margin: 0 auto 15px; font-weight: 700;
         }
 
-        /* ================= ส่วนท้ายและปุ่มติดต่อ (Call to Action) ================= */
         .cta-section {
             background: var(--gold); padding: 60px 8%;
-            border-radius: 40px; text-align: center; margin-bottom: 80px;
+            border-radius: 40px; text-align: center; margin-top: 60px;
         }
 
-        .cta-section h2 { font-size: 32px; margin-bottom: 20px; color: var(--primary-blue); }
-        
         .btn-call {
             display: inline-flex; align-items: center; gap: 12px;
-            padding: 18px 40px; background: var(--primary-blue);
+            padding: 16px 35px; background: var(--primary-blue);
             color: white; text-decoration: none; border-radius: 50px;
-            font-weight: 700; font-size: 18px; transition: var(--transition);
+            font-weight: 700; transition: var(--transition);
         }
 
-        .btn-call:hover { transform: scale(1.05); box-shadow: 0 10px 20px rgba(1,23,43,0.3); }
-
-        footer {
-            background: var(--primary-blue); color: rgba(255,255,255,0.6);
-            padding: 40px 8%; text-align: center; font-size: 14px;
-        }
-
-        /* ================= Responsive มือถือ (iPhone 11/14/15) ================= */
-        @media (max-width: 850px) {
+        /* ================= ปรับแต่งมือถือ (Responsive) ================= */
+        @media (max-width: 992px) {
+            .nav-logo span { display: none; } /* ซ่อนชื่อตัวอักษร เหลือแต่รูปโลโก้ในมือถือ */
+            .navbar { padding: 0 15px; }
+            .service-nav-wrapper { justify-content: flex-start; } /* มือถือให้เริ่มชิดซ้ายเพื่อปัดนิ้วง่าย */
+            
             .detail-grid { grid-template-columns: 1fr; text-align: center; gap: 40px; }
-            .detail-image { order: -1; }
-            .feature-list li { justify-content: center; }
-            .service-header { padding-top: 120px; }
-            .service-header h1 { font-size: 28px; }
-            .navbar { padding: 0 5%; }
-            .nav-logo span { display: none; } /* ซ่อนชื่อตัวอักษรบนมือถือให้ดูคลีน */
+            .detail-image { order: -1; } /* เอารูปขึ้นก่อนข้อความ */
         }
     </style>
 </head>
@@ -159,70 +192,82 @@
             <img src="IM/Adobe Express 2026-03-13 16.31.52.png" alt="Logo">
             <span>ศิวกรแอร์</span>
         </a>
-        <a href="index.html" class="back-btn">
-            <i class="fas fa-chevron-left"></i> กลับหน้าหลัก
-        </a>
-    </nav>
 
-    <header class="service-header">
-        <h1>บริการติดตั้งแอร์ใหม่</h1>
-        <p>ยกระดับความเย็นสบายในบ้านคุณ ด้วยการติดตั้งมาตรฐานวิศวกรรม เก็บงานเนี๊ยบ รับประกันผลงานสูงสุด</p>
-    </header>
+        <div class="service-nav-wrapper">
+            <div class="service-nav">
+                <a href="service-install.html" class="service-nav-item active">
+                    <i class="fas fa-snowflake"></i> ติดตั้งแอร์
+                </a>
+                <a href="service-clean.html" class="service-nav-item">
+                    <i class="fas fa-pump-soap"></i> ล้างแอร์
+                </a>
+                <a href="service-repair.html" class="service-nav-item">
+                    <i class="fas fa-tools"></i> ซ่อมบำรุง
+                </a>
+                <a href="service-electric.html" class="service-nav-item">
+                    <i class="fas fa-bolt"></i> งานไฟฟ้า
+                </a>
+                <a href="service-cctv.html" class="service-nav-item">
+                    <i class="fas fa-video"></i> กล้องวงจรปิด
+                </a>
+                <a href="service-parts.html" class="service-nav-item">
+                    <i class="fas fa-box-open"></i> อะไหล่แท้
+                </a>
+                <a href="index.html" class="service-nav-item back-home">
+                    <i class="fas fa-home"></i> หน้าหลัก
+                </a>
+            </div>
+        </div>
+    </nav>
 
     <main class="content-section">
         
         <section class="detail-grid">
             <div class="detail-text">
-                <h2>ทำไมต้องติดตั้งกับเรา?</h2>
-                <p>เราไม่ได้แค่ติดตั้งให้ความเย็นทำงาน แต่เราคำนึงถึงความสวยงามของตัวบ้าน ทิศทางลมที่เหมาะสม และความประหยัดพลังงานในระยะยาว</p>
+                <h2>ติดตั้งแอร์มาตรฐานใหม่</h2>
+                <p>เรามุ่งเน้นการติดตั้งที่ถูกต้องตามหลักวิศวกรรม เพื่อให้แอร์ทำงานได้เต็มประสิทธิภาพ ประหยัดไฟ และยืดอายุการใช้งานให้นานที่สุด</p>
                 <ul class="feature-list">
-                    <li><i class="fas fa-check-circle"></i> ใช้ทีมช่างผู้เชี่ยวชาญ มีใบรับรองมาตรฐาน</li>
-                    <li><i class="fas fa-check-circle"></i> ใช้วัสดุเกรดพรีเมียม (รางครอบท่อ, สายไฟมาตรฐาน)</li>
-                    <li><i class="fas fa-check-circle"></i> คำนวณขนาด BTU ให้เหมาะสมกับพื้นที่จริง</li>
+                    <li><i class="fas fa-check-circle"></i> ออกแบบจุดวางที่เหมาะสมที่สุด</li>
+                    <li><i class="fas fa-check-circle"></i> ใช้วัสดุติดตั้งคุณภาพเกรด A</li>
                     <li><i class="fas fa-check-circle"></i> รับประกันงานติดตั้ง 1 ปีเต็ม</li>
                 </ul>
             </div>
             <div class="detail-image">
-                <img src="IM/1755225776849.jpg" alt="งานติดตั้งแอร์คุณภาพ">
+                <img src="IM/1755225776849.jpg" alt="งานติดตั้งแอร์">
             </div>
         </section>
 
-        <h2 class="process-title">ขั้นตอนการให้บริการ</h2>
+        <h2 class="process-title">ขั้นตอนการบริการ</h2>
         <section class="process-grid">
             <div class="process-card">
                 <div class="step-num">1</div>
-                <h3>สำรวจพื้นที่</h3>
-                <p>ทีมช่างเข้าประเมินจุดติดตั้งและทิศทางลมที่เหมาะสมที่สุด</p>
+                <h3>นัดหมาย</h3>
+                <p>ระบุวันเวลาที่สะดวกผ่านระบบออนไลน์หรือโทรตรง</p>
             </div>
             <div class="process-card">
                 <div class="step-num">2</div>
-                <h3>ดำเนินการติดตั้ง</h3>
-                <p>ติดตั้งด้วยเครื่องมือทันสมัย รักษาความสะอาดพื้นที่ 100%</p>
+                <h3>เข้างาน</h3>
+                <p>ทีมช่างเข้าพื้นที่ ตรวจเช็คความพร้อมก่อนเริ่มงาน</p>
             </div>
             <div class="process-card">
                 <div class="step-num">3</div>
-                <h3>ทดสอบระบบ</h3>
-                <p>ตรวจเช็คกระแสไฟ แรงดันน้ำยา และทดสอบการทำงานของตัวเครื่อง</p>
-            </div>
-            <div class="process-card">
-                <div class="step-num">4</div>
-                <h3>ส่งมอบงาน</h3>
-                <p>แนะนำวิธีการใช้งานเบื้องต้นเพื่อให้แอร์มีอายุการใช้งานยาวนาน</p>
+                <h3>ตรวจสอบ</h3>
+                <p>ทดสอบระบบหลังการติดตั้งทุุกขั้นตอนอย่างละเอียด</p>
             </div>
         </section>
 
-        <section class="cta-section" style="margin-top: 80px;">
-            <h2>สนใจนัดหมายติดตั้งแอร์?</h2>
-            <p style="margin-bottom: 30px; color: #555;">ปรึกษาฟรี! ประเมินราคาหน้างานไม่มีค่าใช้จ่ายในเขตพื้นที่</p>
+        <section class="cta-section">
+            <h2>ต้องการปรึกษาช่าง?</h2>
+            <p style="margin-bottom: 25px;">สอบถามรายละเอียดหรือประเมินราคาเบื้องต้นได้ทันที</p>
             <a href="tel:0631688547" class="btn-call">
-                <i class="fas fa-calendar-check"></i> จองคิวติดตั้งด่วน
+                <i class="fas fa-phone-alt"></i> โทรเลย: 063-168-8547
             </a>
         </section>
 
     </main>
 
-    <footer>
-        © 2026 Siwakon Air Service Co.,Ltd | Professional Installation Division
+    <footer style="text-align: center; padding: 40px; opacity: 0.5; font-size: 12px;">
+        © 2026 Siwakon Air Service Co.,Ltd
     </footer>
 
 </body>
