@@ -9,17 +9,17 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        /* ================= ตัวแปรสีเน้นความสะอาด (Clean Theme Variables) ================= */
+        /* ================= ตัวแปรสีเน้นความสะอาด ================= */
         :root {
-            --primary-dark: #01172b;    /* น้ำเงินเข้มหลัก */
-            --clean-blue: #00d2ff;      /* สีฟ้าสดใส สื่อถึงความเย็นสะอาด */
-            --water-blue: #0973ff;      /* สีน้ำทะเล */
-            --bg-soft: #f0f8ff;         /* พื้นหลังสีฟ้าจางๆ */
+            --primary-dark: #01172b;    
+            --clean-blue: #00d2ff;      
+            --water-blue: #0973ff;      
+            --bg-soft: #f0f8ff;         
             --transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
             --nav-height: 80px;
         }
 
-        /* ================= รีเซ็ตค่ามาตรฐาน (Base Styles) ================= */
+        /* ================= รีเซ็ตค่ามาตรฐาน ================= */
         * {
             margin: 0; padding: 0; box-sizing: border-box;
             font-family: 'Prompt', sans-serif;
@@ -33,7 +33,7 @@
 
         h1, h2, h3, .nav-logo { font-family: 'Chakra Petch', sans-serif; }
 
-        /* ================= แถบเมนูด้านบน (Navbar) ================= */
+        /* ================= Navbar (คงเดิม) ================= */
         .navbar {
             display: flex; align-items: center; justify-content: space-between;
             padding: 0 8%; background: var(--primary-dark);
@@ -58,20 +58,20 @@
 
         .back-home:hover { background: var(--clean-blue); border-color: var(--clean-blue); color: white; }
 
-        /* ================= ส่วนหัวหน้าล้างแอร์ (Header Section) ================= */
+        /* ================= ส่วนหัว Header (คงเดิม) ================= */
         .header-clean {
             padding: calc(var(--nav-height) + 70px) 8% 70px;
             background: linear-gradient(135deg, var(--primary-dark) 0%, var(--water-blue) 100%);
             color: white; text-align: center;
-            border-bottom-right-radius: 80px; /* เพิ่มความโค้งมนให้ดูทันสมัย */
+            border-bottom-right-radius: 80px;
         }
 
         .header-clean h1 { font-size: clamp(30px, 5vw, 48px); margin-bottom: 20px; }
         .header-clean p { max-width: 750px; margin: 0 auto; opacity: 0.9; font-size: 18px; }
 
-        /* ================= เนื้อหารายละเอียด (Main Detail) ================= */
         .container { padding: 80px 8%; max-width: 1200px; margin: 0 auto; }
 
+        /* ================= ส่วนรายละเอียด (คงเดิม) ================= */
         .detail-row {
             display: grid; grid-template-columns: 1fr 1fr;
             gap: 60px; align-items: center; margin-bottom: 80px;
@@ -84,42 +84,68 @@
         }
 
         .detail-text h2 { color: var(--water-blue); font-size: 32px; margin-bottom: 20px; }
-        
-        /* รายการข้อดีของการล้างแอร์ */
         .clean-list { list-style: none; margin-top: 25px; }
-        .clean-list li {
-            display: flex; align-items: center; gap: 12px;
-            margin-bottom: 15px; font-weight: 500;
-        }
+        .clean-list li { display: flex; align-items: center; gap: 12px; margin-bottom: 15px; font-weight: 500; }
         .clean-list li i { color: var(--clean-blue); font-size: 22px; }
 
-        /* ================= แพ็กเกจการล้าง (Cleaning Packages) ================= */
+        /* ================= ส่วนแพ็กเกจ (คงเดิม) ================= */
         .package-title { text-align: center; margin-bottom: 50px; font-size: 32px; color: var(--primary-dark); }
-        
         .package-grid {
             display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 30px; margin-bottom: 80px;
         }
-
         .package-card {
             background: white; padding: 40px; border-radius: 30px;
             text-align: center; transition: var(--transition);
             border: 1px solid #e1eefb;
         }
-
         .package-card:hover { transform: translateY(-12px); box-shadow: 0 25px 50px rgba(0,115,255,0.1); }
         .package-card i { font-size: 50px; color: var(--water-blue); margin-bottom: 20px; display: block; }
-        .package-card h3 { margin-bottom: 15px; color: var(--primary-dark); font-size: 24px; }
-        .package-card p { font-size: 15px; color: #666; }
 
-        /* ================= ส่วนปุ่มกดจอง (Call to Action) ================= */
+        /* ================= NEW: Gallery ส่วนแสดงรูปภาพเยอะๆ ================= */
+        .gallery-section {
+            padding: 40px 0 80px;
+        }
+
+        .gallery-grid {
+            display: columns;
+            columns: 3 300px; /* แบ่งเป็น 3 คอลัมน์ หรือขนาดขั้นต่ำ 300px */
+            column-gap: 20px;
+        }
+
+        .gallery-item {
+            display: inline-block;
+            width: 100%;
+            margin-bottom: 20px;
+            border-radius: 15px;
+            overflow: hidden;
+            background: white;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+            transition: var(--transition);
+            border: 4px solid white;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            display: block;
+            transition: 0.5s ease;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.02);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+            border-color: var(--clean-blue);
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+
+        /* ================= ส่วนปุ่มจอง (คงเดิม) ================= */
         .cta-box {
             background: white; padding: 50px; border-radius: 40px;
             text-align: center; border: 2px dashed var(--clean-blue);
         }
-
-        .cta-box h2 { font-size: 28px; margin-bottom: 15px; color: var(--water-blue); }
-        
         .btn-book {
             display: inline-flex; align-items: center; gap: 10px;
             padding: 18px 40px; background: var(--water-blue);
@@ -127,17 +153,17 @@
             font-weight: 700; font-size: 19px; transition: var(--transition);
             margin-top: 20px;
         }
-
         .btn-book:hover { transform: scale(1.05); background: var(--primary-dark); }
 
-        /* ================= Responsive สำหรับมือถือ ================= */
+        /* ================= Responsive ================= */
         @media (max-width: 850px) {
             .detail-row { grid-template-columns: 1fr; text-align: center; gap: 40px; }
-            .detail-row .detail-img { order: -1; } /* เอารูปขึ้นก่อนข้อความในมือถือ */
+            .detail-row .detail-img { order: -1; }
             .clean-list li { justify-content: center; }
             .navbar { padding: 0 5%; }
-            .nav-logo span { display: none; } /* ซ่อนตัวอักษรโลโก้บนมือถือ */
+            .nav-logo span { display: none; }
             .header-clean { border-bottom-right-radius: 40px; }
+            .gallery-grid { columns: 2 150px; } /* บนมือถือแสดง 2 คอลัมน์ */
         }
     </style>
 </head>
@@ -196,6 +222,21 @@
             </div>
         </section>
 
+        <h2 class="package-title">ภาพผลงานความประทับใจ</h2>
+        <p style="text-align: center; margin-top: -40px; margin-bottom: 40px; color: #666;">ทีมงานศิวกรแอร์การันตีคุณภาพ ส่งมอบงานสะอาดทุกวัน</p>
+        
+        <section class="gallery-section">
+            <div class="gallery-grid">
+                <div class="gallery-item"><img src="IM/1755225776849.jpg" alt="ผลงานล้างแอร์"></div>
+                <div class="gallery-item"><img src="IM/1755225802976.jpg" alt="ผลงานล้างแอร์"></div>
+                <div class="gallery-item"><img src="IM/1755230005166.jpg" alt="ผลงานล้างแอร์"></div>
+                
+                <div class="gallery-item"><img src="IM/173657_0.jpg" alt="ผลงานล้างแอร์"></div>
+                <div class="gallery-item"><img src="IM/1755225776849.jpg" alt="ผลงานล้างแอร์"></div>
+                <div class="gallery-item"><img src="IM/1755225802976.jpg" alt="ผลงานล้างแอร์"></div>
+                
+                </div>
+        </section>
         <section class="cta-box">
             <h2>ให้แอร์บ้านคุณ สะอาดเหมือนใหม่วันนี้</h2>
             <p>จองคิวง่ายๆ พร้อมรับคำปรึกษาจากช่างผู้เชี่ยวชาญได้โดยตรง</p>
