@@ -421,15 +421,65 @@
         }
 
         /* ================= RESPONSIVE ================= */
-        @media (max-width: 700px) {
-            .hero-content { grid-template-columns: 1fr; text-align: center; }
-            .hero-text p { border-left: none; padding-left: 0; }
-            .hero-btns { justify-content: center; }
-            .hero-image { display: none; }
-            .menu { display: none; }
-            .footer-container { grid-template-columns: 1fr; gap: 40px; text-align: center; }
-            .footer-info p { justify-content: center; }
-        }
+@media (max-width: 850px) {
+    /* 1. จัด Layout ใหม่ให้เรียงเป็นแนวตั้ง */
+    .hero-content { 
+        grid-template-columns: 1fr; 
+        text-align: center; 
+        gap: 20px;
+    }
+
+    /* 2. สลับตำแหน่งให้รูปภาพขึ้นมาก่อนข้อความเพื่อให้คนเห็นผลงานทันที */
+    .hero-image { 
+        order: -1; 
+        display: flex; 
+        justify-content: center; 
+        width: 100%;
+    }
+
+    /* 3. ปรับขนาดรูปภาพให้ยืดหยุ่นตามหน้าจอมือถือ (สำคัญสำหรับ iPhone) */
+    .hero-image img { 
+        width: 100%; 
+        max-width: 320px; /* ขนาดที่พอดีสำหรับหน้าจอมือถือ */
+        height: auto; 
+        aspect-ratio: 1 / 1; /* ปรับเป็นจัตุรัสเพื่อให้ดูทันสมัยและประหยัดพื้นที่แนวตั้ง */
+        object-fit: cover;
+        border-radius: 20px;
+        box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+    }
+
+    /* 4. ปรับแต่งข้อความให้ดูสะอาดตา */
+    .hero-text h1 { 
+        font-size: clamp(28px, 8vw, 42px); 
+    }
+
+    .hero-text p { 
+        border-left: none; 
+        padding-left: 0; 
+        font-size: 16px;
+    }
+
+    .hero-btns { 
+        justify-content: center; 
+    }
+
+    /* 5. จัดการเมนูและส่วนท้าย */
+    .menu { display: none; } /* ซ่อนเมนูไว้ก่อนเพื่อไม่ให้บังหน้าจอ */
+    
+    .footer-container { 
+        grid-template-columns: 1fr; 
+        gap: 30px; 
+        text-align: center; 
+    }
+
+    .footer-info p { 
+        justify-content: center; 
+    }
+
+    .map-container {
+        height: 200px; /* ลดความสูงแผนที่ในมือถือลงเล็กน้อย */
+    }
+}
     </style>
 </head>
 
