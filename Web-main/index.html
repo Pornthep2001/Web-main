@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ศิวกรแอร์ เซอร์วิส - บริการช่างแอร์มืออาชีพ 2026</title>
+    <title>ศิวกรแอร์ เซอร์วิส </title>
     
     <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300;400;600;700&family=Prompt:wght@300;400;600&display=swap" rel="stylesheet">
     
@@ -11,13 +11,13 @@
 
     <style>
         :root {
-            --primary-blue: #0f4c81;
-            --accent-blue: #1a73e8;
-            --gold: #ffcc00;
-            --light-bg: #f4f7fe;
-            --glass: rgba(255, 255, 255, 0.15);
+            --primary-blue: #01172b;
+            --accent-blue: #0973ff;
+            --gold: #e0d3ce;
+            --light-bg: #ffffff;
+            --glass: rgb(255, 255, 255);
             --transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-            --nav-height: 80px;
+            --nav-height: 100px;
         }
 
         /* ================= RESET & BASE ================= */
@@ -66,12 +66,12 @@
             align-items: center;
             gap: 12px;
             color: white;
-            font-size: 22px;
+            font-size: 40px;
             font-weight: 700;
         }
 
         .logo img {
-            height: 50px;
+            height: 80px;
             filter: drop-shadow(0 0 5px rgba(255,255,255,0.3));
         }
 
@@ -81,10 +81,10 @@
         }
 
         .menu a {
-            color: rgba(255,255,255,0.8);
+            color: rgba(255, 255, 255, 0.8);
             text-decoration: none;
-            font-size: 16px;
-            font-weight: 400;
+            font-size: 23px;
+            font-weight: 500;
             transition: var(--transition);
             position: relative;
         }
@@ -102,7 +102,7 @@
             padding: var(--nav-height) 8% 0; 
             background: linear-gradient(rgba(15, 76, 129, 0.85), rgba(15, 76, 129, 0.85)), 
                         url('https://images.unsplash.com/photo-1581094288338-2314dddb7bc3?q=80&w=2070') center/cover;
-            color: white;
+            color: rgb(255, 255, 255);
             position: relative;
             clip-path: ellipse(150% 100% at 50% 0%);
         }
@@ -158,10 +158,13 @@
         }
 
         .hero-image img {
-            width: 100%;
-            border-radius: 30px;
-            border: 8px solid var(--glass);
+            width: 450px;
+            height: 550px;
+            object-fit: cover;
+            border-radius: 15px;
+            border: 1px solid var(--glass);
             box-shadow: 0 30px 60px rgba(0,0,0,0.4);
+            transition: var(--transition);
         }
 
         /* ================= SERVICES ================= */
@@ -237,10 +240,6 @@
             transform: translateY(-10px);
             box-shadow: 0 20px 40px rgba(0,0,0,0.05);
             border-color: var(--accent-blue);
-        }
-
-        .service-card:hover .more-link {
-            color: var(--primary-blue);
         }
 
         /* ================= PORTFOLIO ================= */
@@ -329,16 +328,97 @@
         .float-line { background: #06c755; }
         .float-btn:hover { transform: scale(1.1); }
 
-        /* ================= FOOTER ================= */
+        /* ================= FOOTER & MAP ================= */
         footer {
             background: #081b3a;
             color: rgba(255,255,255,0.7);
-            padding: 60px 8% 30px;
-            text-align: center;
+            padding: 80px 8% 30px;
         }
 
-        .footer-content h2 { color: white; margin-bottom: 15px; }
-        .footer-copy { margin-top: 30px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 13px; }
+        .footer-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-content h2 { 
+            color: white; 
+            margin-bottom: 25px;
+            font-size: 28px;
+        }
+
+        .footer-info p {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: flex-start;
+            font-size: 16px;
+        }
+
+        .footer-info i {
+            margin-right: 15px;
+            color: var(--gold);
+            font-size: 20px;
+            margin-top: 5px;
+        }
+
+        /* สไตล์แผนที่ที่คลิกได้ */
+        .map-link {
+            text-decoration: none;
+            display: block;
+            transition: var(--transition);
+        }
+
+        .map-container {
+            width: 100%;
+            height: 300px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            border: 2px solid rgba(255,255,255,0.1);
+            position: relative;
+        }
+
+        /* เพิ่ม Overlay เพื่อให้รู้สึกว่าคลิกได้ */
+        .map-container::after {
+            content: 'คลิกเพื่อดูแผนที่ขนาดใหญ่';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(1, 23, 43, 0.4);
+            color: rgb(255, 0, 0);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            opacity: 0;
+            transition: 0.3s;
+        }
+
+        .map-link:hover .map-container::after {
+            opacity: 1;
+        }
+
+        .map-link:hover .map-container {
+            border-color: var(--gold);
+            transform: scale(1.02);
+        }
+
+        .map-container iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+            pointer-events: none; /* เพื่อให้คลิกผ่านไปยัง <a> ได้ง่าย */
+        }
+
+        .footer-copy { 
+            margin-top: 50px; 
+            padding-top: 20px; 
+            border-top: 1px solid rgba(255,255,255,0.1); 
+            font-size: 13px; 
+            text-align: center;
+        }
 
         /* ================= RESPONSIVE ================= */
         @media (max-width: 992px) {
@@ -347,6 +427,8 @@
             .hero-btns { justify-content: center; }
             .hero-image { display: none; }
             .menu { display: none; }
+            .footer-container { grid-template-columns: 1fr; gap: 40px; text-align: center; }
+            .footer-info p { justify-content: center; }
         }
     </style>
 </head>
@@ -356,73 +438,83 @@
     <nav class="navbar">
         <div class="logo">
             <img src="IM/Adobe Express 2026-03-13 16.31.52.png" alt="Logo">
-            <span>SIWAKON AIR</span>
+            <span>ศิวกรแอร์ เซอร์วิส</span>
         </div>
         <div class="menu">
             <a href="#home">หน้าแรก</a>
             <a href="#services">บริการของเรา</a>
             <a href="#portfolio">ผลงาน</a>
+            <a href="#Review">รีวิวจากลูกค้า</a>
             <a href="#contact">ติดต่อเรา</a>
         </div>
     </nav>
 
-    <section class="hero" id="home">
-        <div class="hero-content">
-            <div class="hero-text">
-                <h1>ความเย็นที่คุณมั่นใจ<br>ประสบการณ์กว่า 10 ปี</h1>
-                <p>บริการ ล้าง ติดตั้ง ซ่อม และย้ายแอร์บ้าน ครบวงจร โดยทีมช่างมืออาชีพที่ผ่านการอบรมมาตรฐานปี 2026</p>
-                <div class="hero-btns">
-                    <a href="tel:0XXXXXXXXX" class="btn-primary">
-                        <i class="fas fa-phone"></i> โทรปรึกษาทันที
-                    </a>
-                    <a href="#services" style="color: rgba(255,255,255,0.8); text-decoration: none; font-size: 15px;">ดูบริการทั้งหมด <i class="fas fa-chevron-down" style="font-size: 12px; margin-left: 5px;"></i></a>
-                </div>
+   <section class="hero" id="home">
+
+    <div class="hero-content">
+
+        <div class="hero-text">
+
+            <h1>ศิวกรแอร์ เซอร์วิส<br>ประสบการณ์ทำงานมากกว่า 10 ปี</h1>
+
+            <p>บริการ ล้าง ติดตั้ง ซ่อม และย้ายแอร์บ้าน ครบวงจร โดยทีมช่างมืออาชีพที่ผ่านการอบรมมาตรฐานปี 2026</p>
+
+            <div class="hero-btns">
+
+                <a href="tel:0631688547" class="btn-primary">
+                    <i class="fas fa-phone"></i> ติดต่อเรา
+                </a>
+
+                <a href="#services" style="color: rgba(0, 0, 0, 0.8); text-decoration: none; font-size: 15px;">
+                    ดูบริการทั้งหมด 
+                    <i class="fas fa-chevron-down" style="font-size: 12px; margin-left: 5px;"></i>
+                </a>
+
             </div>
-            <div class="hero-image">
-                <img src="IM/IMG20251228144217.jpg" alt="ช่างแอร์มืออาชีพ">
-            </div>
+
         </div>
-    </section>
+
+        <div class="hero-image">
+            <img src="IM/173657_0.jpg" alt="ช่างแอร์มืออาชีพ">
+        </div>
+
+    </div>
+
+</section>
 
     <section class="services" id="services">
         <h2 class="section-title">บริการระดับพรีเมียม</h2>
         <div class="service-grid">
-            
             <a href="service-install.html" class="service-card">
                 <i class="fas fa-snowflake"></i>
                 <h3>ติดตั้งแอร์ใหม่</h3>
                 <p>วางระบบมาตรฐาน เก็บงานเรียบร้อยด้วยวัสดุเกรด A รับประกันงานรั่วซึม</p>
                 <span class="more-link">เพิ่มเติม</span>
             </a>
-
             <a href="service-clean.html" class="service-card">
                 <i class="fas fa-pump-soap"></i>
                 <h3>ล้างแอร์ฆ่าเชื้อ</h3>
                 <p>ล้างสะอาดลึกถึงแผงคอยล์ พร้อมฉีดพ่นน้ำยาฆ่าเชื้อโรคและแบคทีเรีย</p>
                 <span class="more-link">เพิ่มเติม</span>
             </a>
-
             <a href="service-repair.html" class="service-card">
                 <i class="fas fa-tools"></i>
                 <h3>ซ่อมบำรุงด่วน</h3>
                 <p>แอร์ไม่เย็น มีไฟโชว์ น้ำหยด ตรวจเช็คด้วยเครื่องมือดิจิทัลที่แม่นยำ</p>
                 <span class="more-link">เพิ่มเติม</span>
             </a>
-
             <a href="service-electric.html" class="service-card">
                 <i class="fas fa-bolt"></i>
                 <h3>งานระบบไฟฟ้า</h3>
                 <p>เดินสายไฟ ติดตั้งตู้คอนซูมเมอร์ และตรวจสอบความปลอดภัยระบบไฟบ้าน</p>
                 <span class="more-link">เพิ่มเติม</span>
             </a>
-
             <a href="service-cctv.html" class="service-card">
                 <i class="fas fa-video"></i>
                 <h3>กล้องวงจรปิด</h3>
                 <p>ติดตั้งระบบรักษาความปลอดภัย CCTV ดูผ่านมือถือได้ 24 ชม.</p>
                 <span class="more-link">เพิ่มเติม</span>
             </a>
-
             <a href="service-parts.html" class="service-card">
                 <i class="fas fa-box-open"></i>
                 <h3>จำหน่ายอะไหล่</h3>
@@ -448,9 +540,14 @@
                     <img src="IM/1755230005166.jpg" alt="ผลงาน">
                     <div class="card-overlay"><h4>ระบบไฟออฟฟิศ</h4><p>มาตรฐานสากล</p></div>
                 </div>
-                <div class="card"><img src="IM/1755225776849.jpg" alt="ผลงาน"></div>
-                <div class="card"><img src="IM/1755225802976.jpg" alt="ผลงาน"></div>
-                <div class="card"><img src="IM/1755230005166.jpg" alt="ผลงาน"></div>
+                <div class="card">
+                    <img src="IM/1755225776849.jpg" alt="ผลงาน">
+                    <div class="card-overlay"><h4>งานคุณภาพ</h4><p>ดูแลทุกขั้นตอน</p></div>
+                </div>
+                <div class="card">
+                    <img src="IM/1755225802976.jpg" alt="ผลงาน">
+                    <div class="card-overlay"><h4>ความสะอาด</h4><p>หัวใจสำคัญของเรา</p></div>
+                </div>
             </div>
         </div>
     </section>
@@ -459,17 +556,28 @@
         <a href="https://line.me/ti/p/~YOUR_LINE_ID" class="float-btn float-line" target="_blank">
             <i class="fab fa-line"></i>
         </a>
-        <a href="tel:0XXXXXXXXX" class="float-btn float-phone">
+        <a href="tel:0631688547" class="float-btn float-phone">
             <i class="fas fa-phone"></i>
         </a>
     </div>
 
     <footer>
-        <div class="footer-content">
-            <h2>ศิวกรแอร์ เซอร์วิส จำกัด</h2>
-            <p><i class="fas fa-map-marker-alt" style="margin-right: 8px;"></i> 123 ถนนหลัก เขตพื้นที่ให้บริการ กรุงเทพและปริมณฑล</p>
-            <p><i class="fas fa-clock" style="margin-right: 8px;"></i> เปิดบริการทุกวัน: 08:00 - 18:00 น.</p>
+        <div class="footer-container">
+            <div class="footer-info">
+                <h2>ศิวกรแอร์ เซอร์วิส จำกัด</h2>
+                <p><i class="fas fa-map-marker-alt"></i> 741 Charoen Phon, Banphot Phisai District, Nakhon Sawan 60180</p>
+                <p><i class="fas fa-clock"></i> เปิดบริการทุกวัน: 08:00 - 18:00 น.</p>
+                <p><i class="fas fa-phone-alt"></i>0631688547</p>
+                <p><i class="fas fa-phone-alt"></i>0631615730</p>
+            </div>
+            
+            <a href="https://www.google.com/maps/place/%E0%B8%A3%E0%B9%89%E0%B8%B2%E0%B8%99%E0%B8%A8%E0%B8%B4%E0%B8%A7%E0%B8%81%E0%B8%A3%E0%B9%81%E0%B8%AD%E0%B8%A3%E0%B9%8C%E0%B9%80%E0%B8%8B%E0%B8%AD%E0%B8%A3%E0%B9%8C%E0%B8%A7%E0%B8%B4%E0%B8%AA/@15.9487466,99.9811631,399m/data=!3m1!1e3!4m6!3m5!1s0x30e0618f72bed6fb:0xf249a0e9bf0afdb9!8m2!3d15.9489198!4d99.9811804!16s%2Fg%2F11twqp8hzm?entry=ttu&g_ep=EgoyMDI2MDMxMS4wIKXMDSoASAFQAw%3D%3D" target="_blank" class="map-link">
+                <div class="map-container">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d1735.7994920962788!2d99.9811631!3d15.9487466!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x30e0618f72bed6fb%3A0xf249a0e9bf0afdb9!2z4Lij4LmJ4Liy4LiZ4Lio4Li04Lin4LiB4Lij4LmB4Lit4Lij4LmM4LmA4LiL4Lit4Lij4LmM4Lin4Li04Liq!5e1!3m2!1sen!2sth!4v1773635814027!5m2!1sen!2sth" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen="" loading="lazy"></iframe>
+                </div>
+            </a>
         </div>
+        
         <div class="footer-copy">
             © 2026 Siwakon Air Service Co.,Ltd | Professional Cooling Solutions
         </div>
