@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>บริการงานระบบไฟฟ้า - ศิวกรแอร์ เซอร์วิส</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300;400;600;700&family=Prompt:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* ================= ตัวแปรสีเน้นความปลอดภัย (Electric Theme Variables) ================= */
+        :root {
+            --primary-dark: #01172b;    /* น้ำเงินเข้มหลัก */
+            --electric-yellow: #ffcc00; /* เหลืองไฟฟ้า */
+            --accent-blue: #0973ff;     /* ฟ้าสดใส */
+            --bg-neutral: #f8f9fa;      /* พื้นหลังสีเทาอ่อนสะอาดตา */
+            --transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            --nav-height: 80px;
+        }
+
+        /* ================= รีเซ็ตค่ามาตรฐาน (Base Styles) ================= */
+        * {
+            margin: 0; padding: 0; box-sizing: border-box;
+            font-family: 'Prompt', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-neutral);
+            color: #333; line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, .nav-logo { font-family: 'Chakra Petch', sans-serif; }
+
+        /* ================= แถบเมนูย้อนกลับ (Navbar) ================= */
+        .navbar {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 8%; background: var(--primary-dark);
+            height: var(--nav-height); width: 100%;
+            position: fixed; top: 0; z-index: 2000;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .nav-logo {
+            color: white; font-size: 24px; font-weight: 700;
+            text-decoration: none; display: flex; align-items: center; gap: 10px;
+        }
+
+        .nav-logo img { height: 50px; }
+
+        .back-home {
+            color: white; text-decoration: none; font-weight: 500;
+            display: flex; align-items: center; gap: 8px;
+            transition: var(--transition); padding: 8px 18px;
+            border: 1px solid rgba(255,255,255,0.3); border-radius: 50px;
+        }
+
+        .back-home:hover { background: var(--electric-yellow); border-color: var(--electric-yellow); color: #000; }
+
+        /* ================= ส่วนหัวหน้าบริการ (Hero Section) ================= */
+        .header-electric {
+            padding: calc(var(--nav-height) + 70px) 8% 70px;
+            background: linear-gradient(135deg, var(--primary-dark) 0%, #002d58 100%);
+            color: white; text-align: center;
+            position: relative; overflow: hidden;
+        }
+
+        /* ตกแต่งพื้นหลังด้วยไอคอนจางๆ */
+        .header-electric::before {
+            content: '\f0e7'; font-family: 'Font Awesome 6 Free'; font-weight: 900;
+            position: absolute; font-size: 200px; color: rgba(255,204,0,0.05);
+            right: -50px; bottom: -50px;
+        }
+
+        .header-electric h1 { font-size: clamp(30px, 5vw, 48px); margin-bottom: 20px; }
+        .header-electric p { max-width: 750px; margin: 0 auto; opacity: 0.9; font-size: 18px; }
+
+        /* ================= เนื้อหาหลัก (Main Content) ================= */
+        .container { padding: 80px 8%; max-width: 1200px; margin: 0 auto; }
+
+        .detail-row {
+            display: grid; grid-template-columns: 1fr 1fr;
+            gap: 60px; align-items: center; margin-bottom: 80px;
+        }
+
+        .detail-img img {
+            width: 100%; border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            border: 5px solid white;
+        }
+
+        .detail-text h2 { color: var(--primary-dark); font-size: 32px; margin-bottom: 25px; border-bottom: 3px solid var(--electric-yellow); display: inline-block; }
+        
+        /* รายการงานไฟฟ้าที่ครอบคลุม */
+        .electric-list { list-style: none; margin-top: 25px; }
+        .electric-list li {
+            display: flex; align-items: center; gap: 12px;
+            margin-bottom: 15px; font-weight: 500;
+        }
+        .electric-list li i { color: var(--electric-yellow); font-size: 20px; }
+
+        /* ================= บล็อกความปลอดภัย (Safety Section) ================= */
+        .safety-title { text-align: center; margin-bottom: 50px; font-size: 32px; color: var(--primary-dark); }
+        
+        .safety-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px; margin-bottom: 80px;
+        }
+
+        .safety-card {
+            background: white; padding: 40px; border-radius: 20px;
+            transition: var(--transition); border-left: 5px solid var(--electric-yellow);
+        }
+
+        .safety-card:hover { transform: scale(1.03); box-shadow: 0 15px 30px rgba(0,0,0,0.05); }
+        .safety-card i { font-size: 40px; color: var(--primary-dark); margin-bottom: 20px; display: block; }
+        .safety-card h3 { margin-bottom: 15px; color: var(--accent-blue); }
+
+        /* ================= ส่วนปิดท้ายติดต่อช่าง (Action Box) ================= */
+        .cta-box {
+            background: var(--electric-yellow); padding: 50px; border-radius: 30px;
+            text-align: center; color: #000; box-shadow: 0 20px 40px rgba(255,204,0,0.2);
+        }
+
+        .cta-box h2 { font-size: 30px; margin-bottom: 15px; }
+        
+        .btn-call-electric {
+            display: inline-flex; align-items: center; gap: 12px;
+            padding: 18px 45px; background: var(--primary-dark);
+            color: white; text-decoration: none; border-radius: 50px;
+            font-weight: 700; font-size: 19px; transition: var(--transition);
+            margin-top: 20px;
+        }
+
+        .btn-call-electric:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
+
+        /* ================= Responsive สำหรับ iPhone และมือถือทั่วไป ================= */
+        @media (max-width: 850px) {
+            .detail-row { grid-template-columns: 1fr; text-align: center; gap: 40px; }
+            .detail-row .detail-img { order: -1; } /* ย้ายรูปมาไว้ด้านบนในมือถือ */
+            .electric-list li { justify-content: center; }
+            .navbar { padding: 0 5%; }
+            .nav-logo span { display: none; } /* ซ่อนตัวอักษรโลโก้บนมือถือ */
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <a href="index.html" class="nav-logo">
+            <img src="IM/Adobe Express 2026-03-13 16.31.52.png" alt="Logo">
+            <span>ศิวกรแอร์ เซอร์วิส</span>
+        </a>
+        <a href="index.html" class="back-home">
+            <i class="fas fa-chevron-left"></i> กลับหน้าหลัก
+        </a>
+    </nav>
+
+    <header class="header-electric">
+        <h1>บริการงานระบบไฟฟ้าครบวงจร</h1>
+        <p>มั่นใจในความปลอดภัย ด้วยบริการตรวจเช็คและติดตั้งระบบไฟฟ้าภายในบ้านและอาคาร โดยช่างไฟฟ้ามืออาชีพที่ได้รับมาตรฐาน</p>
+    </header>
+
+    <main class="container">
+        
+        <section class="detail-row">
+            <div class="detail-text">
+                <h2>ดูแลทุกจุด.. ปลอดภัยทุกการใช้งาน</h2>
+                <p>เราให้บริการตั้งแต่การเดินสายไฟใหม่ จนถึงการซ่อมแซมจุดที่ชำรุด เพื่อให้ระบบไฟฟ้าในที่พักอาศัยของคุณพร้อมใช้งานและลดความเสี่ยงจากการลัดวงจร</p>
+                <ul class="electric-list">
+                    <li><i class="fas fa-check-square"></i> ติดตั้งตู้คอนซูมเมอร์ และเบรกเกอร์มาตรฐาน</li>
+                    <li><i class="fas fa-check-square"></i> เดินสายไฟใหม่ ทั้งแบบร้อยท่อและตีกิ๊บ</li>
+                    <li><i class="fas fa-check-square"></i> ติดตั้งโคมไฟ ปลั๊ก สวิตช์ และอุปกรณ์ไฟฟ้าทุุกชนิด</li>
+                    <li><i class="fas fa-check-square"></i> ตรวจเช็คระบบกราวด์ (สายดิน) เพื่อความปลอดภัย</li>
+                </ul>
+            </div>
+            <div class="detail-img">
+                <img src="IM/1755230005166.jpg" alt="งานระบบไฟฟ้าคุณภาพ">
+            </div>
+        </section>
+
+        <h2 class="safety-title">ทำไมต้องเลือกช่างไฟฟ้าของเรา?</h2>
+        <section class="safety-grid">
+            <div class="safety-card">
+                <i class="fas fa-user-check"></i>
+                <h3>ช่างมีใบรับรอง</h3>
+                <p>ทีมงานผ่านการทดสอบมาตรฐานฝีมือแรงงานแห่งชาติ สาขาช่างไฟฟ้าภายในอาคาร</p>
+            </div>
+            <div class="safety-card">
+                <i class="fas fa-tools"></i>
+                <h3>อุปกรณ์มาตรฐาน</h3>
+                <p>เราเลือกใช้วัสดุและสายไฟที่มี มอก. เท่านั้น เพื่อความปลอดภัยสูงสุดของลูกค้า</p>
+            </div>
+            <div class="safety-card">
+                <i class="fas fa-search-plus"></i>
+                <h3>ตรวจสอบละเอียด</h3>
+                <p>หลังจบงานเราตรวจสอบกระแสไฟทุกจุดด้วยเครื่องมือวัดที่แม่นยำก่อนส่งมอบ</p>
+            </div>
+        </section>
+
+        <section class="cta-box">
+            <h2>ระบบไฟมีปัญหา หรือต้องการติดตั้งใหม่?</h2>
+            <p>ปรึกษาช่างเพื่อประเมินราคาเบื้องต้นได้ทันที พร้อมให้บริการด่วนในเขตพื้นที่</p>
+            <a href="tel:0631688547" class="btn-call-electric">
+                <i class="fas fa-bolt"></i> โทรปรึกษาช่างไฟฟ้า
+            </a>
+        </section>
+
+    </main>
+
+    <footer style="text-align: center; padding: 40px; color: #aaa; font-size: 14px;">
+        © 2026 Siwakon Air Service | Electrical Systems & Safety Specialist
+    </footer>
+
+</body>
+</html>

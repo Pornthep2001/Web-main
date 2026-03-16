@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>จำหน่ายอะไหล่แอร์แท้ - ศิวกรแอร์ เซอร์วิส</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300;400;600;700&family=Prompt:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* ================= ตัวแปรสีเน้นความหลากหลาย (Parts Theme Variables) ================= */
+        :root {
+            --primary-dark: #01172b;    /* น้ำเงินเข้มหลัก */
+            --parts-orange: #f37021;   /* สีส้มอิฐ/สีอะไหล่ ให้ความรู้สึกเหมือนโกดังสินค้า */
+            --accent-blue: #0973ff;     /* ฟ้าสดใส */
+            --bg-light: #ffffff;        /* พื้นหลังขาวสะอาด */
+            --transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            --nav-height: 80px;
+        }
+
+        /* ================= รีเซ็ตค่ามาตรฐาน (Base Styles) ================= */
+        * {
+            margin: 0; padding: 0; box-sizing: border-box;
+            font-family: 'Prompt', sans-serif;
+        }
+
+        body {
+            background-color: #f9f9f9;
+            color: #333; line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, .nav-logo { font-family: 'Chakra Petch', sans-serif; }
+
+        /* ================= แถบเมนูย้อนกลับ (Navbar) ================= */
+        .navbar {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 8%; background: var(--primary-dark);
+            height: var(--nav-height); width: 100%;
+            position: fixed; top: 0; z-index: 2000;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .nav-logo {
+            color: white; font-size: 24px; font-weight: 700;
+            text-decoration: none; display: flex; align-items: center; gap: 10px;
+        }
+
+        .nav-logo img { height: 50px; }
+
+        .back-home {
+            color: white; text-decoration: none; font-weight: 500;
+            display: flex; align-items: center; gap: 8px;
+            transition: var(--transition); padding: 8px 18px;
+            border: 1px solid rgba(255,255,255,0.3); border-radius: 50px;
+        }
+
+        .back-home:hover { background: var(--parts-orange); border-color: var(--parts-orange); color: white; }
+
+        /* ================= ส่วนหัวหน้าอะไหล่ (Hero Section) ================= */
+        .header-parts {
+            padding: calc(var(--nav-height) + 70px) 8% 70px;
+            background: linear-gradient(135deg, var(--primary-dark) 0%, #1a3a5a 100%);
+            color: white; text-align: center;
+            position: relative;
+        }
+
+        .header-parts h1 { font-size: clamp(30px, 5vw, 48px); margin-bottom: 20px; }
+        .header-parts p { max-width: 750px; margin: 0 auto; opacity: 0.9; font-size: 18px; }
+
+        /* ================= เนื้อหาหลัก (Main Content) ================= */
+        .container { padding: 80px 8%; max-width: 1200px; margin: 0 auto; }
+
+        .info-row {
+            display: grid; grid-template-columns: 1fr 1fr;
+            gap: 60px; align-items: center; margin-bottom: 80px;
+        }
+
+        .info-img img {
+            width: 100%; border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            border: 5px solid white;
+        }
+
+        .info-text h2 { color: var(--primary-dark); font-size: 32px; margin-bottom: 25px; }
+        
+        /* รายการจุดเด่นอะไหล่ */
+        .parts-list { list-style: none; margin-top: 25px; }
+        .parts-list li {
+            display: flex; align-items: center; gap: 12px;
+            margin-bottom: 15px; font-weight: 500;
+        }
+        .parts-list li i { color: var(--parts-orange); font-size: 20px; }
+
+        /* ================= หมวดหมู่สินค้า (Categories) ================= */
+        .grid-title { text-align: center; margin-bottom: 50px; font-size: 32px; color: var(--primary-dark); }
+        
+        .parts-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px; margin-bottom: 80px;
+        }
+
+        .parts-card {
+            background: white; padding: 35px; border-radius: 20px;
+            text-align: center; transition: var(--transition);
+            border: 1px solid #eee;
+        }
+
+        .parts-card:hover { transform: translateY(-10px); border-color: var(--parts-orange); box-shadow: 0 15px 30px rgba(243,112,33,0.1); }
+        .parts-card i { font-size: 45px; color: var(--parts-orange); margin-bottom: 20px; display: block; }
+        .parts-card h3 { margin-bottom: 10px; color: var(--primary-dark); }
+
+        /* ================= ส่วนปิดท้าย (CTA Box) ================= */
+        .cta-box {
+            background: var(--primary-dark); padding: 50px; border-radius: 30px;
+            text-align: center; color: white;
+        }
+
+        .btn-inquiry {
+            display: inline-flex; align-items: center; gap: 10px;
+            padding: 18px 45px; background: var(--parts-orange);
+            color: white; text-decoration: none; border-radius: 50px;
+            font-weight: 700; font-size: 19px; transition: var(--transition);
+            margin-top: 25px;
+        }
+
+        .btn-inquiry:hover { transform: scale(1.05); background: white; color: var(--primary-dark); }
+
+        /* ================= Responsive สำหรับมือถือ ================= */
+        @media (max-width: 850px) {
+            .info-row { grid-template-columns: 1fr; text-align: center; gap: 40px; }
+            .info-row .info-img { order: -1; }
+            .parts-list li { justify-content: center; }
+            .navbar { padding: 0 5%; }
+            .nav-logo span { display: none; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <a href="index.html" class="nav-logo">
+            <img src="IM/Adobe Express 2026-03-13 16.31.52.png" alt="Logo">
+            <span>ศิวกรแอร์ เซอร์วิส</span>
+        </a>
+        <a href="index.html" class="back-home">
+            <i class="fas fa-chevron-left"></i> กลับหน้าหลัก
+        </a>
+    </nav>
+
+    <header class="header-parts">
+        <h1>ศูนย์รวมอะไหล่แอร์แท้ทุกยี่ห้อ</h1>
+        <p>จำหน่ายอะไหล่แอร์บ้านและสำนักงานเกรดมาตรฐานโรงงาน ครบทุกชิ้นส่วนที่ช่างและเจ้าของบ้านไว้วางใจ</p>
+    </header>
+
+    <main class="container">
+        
+        <section class="info-row">
+            <div class="info-text">
+                <h2>มั่นใจในคุณภาพ.. อะไหล่แท้ 100%</h2>
+                <p>เราคัดสรรอะไหล่จากผู้ผลิตโดยตรง เพื่อให้แอร์ของคุณทำงานได้อย่างเต็มประสิทธิภาพและมีอายุการใช้งานที่ยาวนานขึ้น ลดปัญหาจุกจิกหลังการซ่อม</p>
+                <ul class="parts-list">
+                    <li><i class="fas fa-certificate"></i> อะไหล่แท้จากศูนย์บริการมาตรฐาน</li>
+                    <li><i class="fas fa-shield-alt"></i> มีการรับประกันสินค้าทุกชิ้นตามเงื่อนไข</li>
+                    <li><i class="fas fa-truck-loading"></i> มีสินค้าพร้อมส่งและให้บริการติดตั้งทันที</li>
+                    <li><i class="fas fa-tags"></i> ราคาเป็นกันเอง ทั้งปลีกและส่ง</li>
+                </ul>
+            </div>
+            <div class="info-img">
+                <img src="https://images.unsplash.com/photo-1581092160562-40aa08e78837?q=80&w=2070" alt="คลังอะไหล่แอร์">
+            </div>
+        </section>
+
+        <h2 class="grid-title">หมวดหมู่ที่เราจำหน่าย</h2>
+        <section class="parts-grid">
+            <div class="parts-card">
+                <i class="fas fa-fan"></i>
+                <h3>มอเตอร์พัดลม</h3>
+                <p>มอเตอร์คอยล์เย็นและคอยล์ร้อน ทุกขนาด ทุกรุ่น</p>
+            </div>
+            <div class="parts-card">
+                <i class="fas fa-microchip"></i>
+                <h3>แผงวงจรควบคุม</h3>
+                <p>บอร์ดควบคุมอัจฉริยะ สำหรับแอร์ระบบธรรมดาและ Inverter</p>
+            </div>
+            <div class="parts-card">
+                <i class="fas fa-compress-alt"></i>
+                <h3>คอมเพรสเซอร์</h3>
+                <p>หัวใจหลักของแอร์ มีให้เลือกครบทุกยี่ห้อดัง</p>
+            </div>
+            <div class="parts-card">
+                <i class="fas fa-remote-control"></i>
+                <h3>รีโมทแอร์</h3>
+                <p>รีโมทแท้จากศูนย์ และรีโมทแบบรวมรุ่นคุณภาพสูง</p>
+            </div>
+            <div class="parts-card">
+                <i class="fas fa-wind"></i>
+                <h3>แผ่นกรองอากาศ</h3>
+                <p>ฟิลเตอร์ดักจับฝุ่นและกำจัดกลิ่นอับตรงรุ่น</p>
+            </div>
+            <div class="parts-card">
+                <i class="fas fa-tools"></i>
+                <h3>อุปกรณ์ติดตั้ง</h3>
+                <p>ขาแขวน, รางครอบท่อ, เทปพันท่อ และน้ำยาแอร์</p>
+            </div>
+        </section>
+
+        <section class="cta-box">
+            <h2>ค้นหาอะไหล่รุ่นไหนอยู่?</h2>
+            <p>เพียงถ่ายรูปสติกเกอร์รุ่นแอร์ (Model) หรือรูปอะไหล่ที่ต้องการ ส่งมาให้เราเช็คสต็อกได้ทันที</p>
+            <a href="tel:0631688547" class="btn-inquiry">
+                <i class="fab fa-line"></i> สอบถามอะไหล่ผ่านไลน์/โทร
+            </a>
+        </section>
+
+    </main>
+
+    <footer style="text-align: center; padding: 40px; color: #999; font-size: 14px;">
+        © 2026 Siwakon Air Service | Authorized Parts Dealer
+    </footer>
+
+</body>
+</html>
