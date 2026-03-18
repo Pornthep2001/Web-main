@@ -9,59 +9,105 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
+        /* ================= ตัวแปรสีและค่าคงที่ ================= */
         :root {
             --primary-dark: #020817;
             --accent-blue: #00eaff;
             --win-blue: #0973ff;
             --glass-bg: rgba(15, 23, 42, 0.9);
+            --gold: #e0d3ce;
             --white: #ffffff;
             --transition: all 0.3s ease;
+            --nav-height: 150px; /* ความสูงตั้งต้นสำหรับ Desktop */
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Prompt', sans-serif; }
-        body { background-color: var(--primary-dark); color: var(--white); overflow-x: hidden; padding-top: 70px; }
-        h1, h2, h3, .nav-logo { font-family: 'Chakra Petch', sans-serif; }
+        
+        body { 
+            background-color: var(--primary-dark); 
+            color: var(--white); 
+            overflow-x: hidden; 
+            padding-top: 100px; /* เว้นระยะจาก Navbar */
+        }
+        
+        h1, h2, h3, .logo { font-family: 'Chakra Petch', sans-serif; }
 
+        /* ================= แถบเมนูด้านบน (Navbar) เหมือนหน้า Index ================= */
         .navbar {
             display: flex; align-items: center; justify-content: space-between;
-            padding: 0 5%; background: rgba(1, 23, 43, 0.95);
-            height: 70px; width: 100%; position: fixed; top: 0; z-index: 2000;
-            backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding: 0 8%;
+            background: rgba(15, 76, 129, 0.95);
+            backdrop-filter: blur(15px);
+            position: fixed; top: 0; width: 100%;
+            height: 100px; /* ปรับความสูงให้สมดุล */
+            z-index: 2000;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            transition: var(--transition);
         }
-        .nav-logo { color: white; text-decoration: none; display: flex; align-items: center; gap: 10px; font-size: 18px; font-weight: 700; }
-        .nav-logo img { height: 40px; }
 
+        .logo {
+            display: flex; align-items: center; gap: 12px;
+            color: white; font-size: 24px; font-weight: 700; text-decoration: none;
+        }
+
+        .logo img { height: 50px; width: auto; }
+
+        .menu { display: flex; gap: 30px; align-items: center; }
+
+        .menu a {
+            color: rgba(255, 255, 255, 0.8); text-decoration: none;
+            font-size: 18px; font-weight: 500; transition: var(--transition);
+        }
+
+        .menu a:hover { color: var(--gold); }
+
+        /* Dropdown (Rich Menu) */
+        .dropdown { position: relative; display: inline-block; }
+        .dropdown-content {
+            display: none; position: absolute; background-color: #ffffff;
+            min-width: 220px; box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            z-index: 3000; top: 100%; left: 0; border-radius: 12px;
+            padding: 10px 0; overflow: hidden;
+        }
+        .dropdown-content a {
+            color: #333 !important; padding: 12px 20px !important;
+            font-size: 15px !important; display: flex !important;
+            align-items: center; gap: 10px; background: transparent !important;
+        }
+        .dropdown-content a i { color: var(--win-blue); width: 20px; }
+        .dropdown-content a:hover { background-color: #f0f7ff !important; color: var(--win-blue) !important; }
+        .dropdown:hover .dropdown-content { display: block; }
+
+        /* ================= Dashboard Content ================= */
         .dashboard-container {
             display: grid; 
-            grid-template-columns: 1fr 0.8fr;
-            gap: 20px; padding: 20px 5%; 
+            grid-template-columns: 1.3fr 0.7fr;
+            gap: 25px; padding: 40px 5%; 
             max-width: 1600px; margin: 0 auto;
         }
 
         .map-card {
-            background: var(--glass-bg); border-radius: 25px; border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 20px; position: relative; box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+            background: var(--glass-bg); border-radius: 30px; border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 30px; position: relative; box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+            height: fit-content;
         }
 
         .svg-map { width: 100%; height: auto; }
 
-        /* ปรับแต่งส่วนที่คลิกได้ในแผนที่ */
         .district-poly {
             fill: #1e293b; stroke: rgba(255,255,255,0.2);
-            stroke-width: 1; transition: var(--transition);
-            cursor: pointer;
+            stroke-width: 1.2; transition: var(--transition); cursor: pointer;
         }
 
         .district-poly:hover, .district-poly.selected {
             fill: var(--win-blue) !important;
-            stroke: var(--accent-blue);
-            stroke-width: 2;
-            filter: drop-shadow(0 0 10px var(--accent-blue));
+            stroke: var(--accent-blue); stroke-width: 2.5;
+            filter: drop-shadow(0 0 15px var(--accent-blue));
         }
 
         .map-label {
             font-family: 'Chakra Petch'; font-size: 11px;
-            fill: rgba(255,255,255,0.6); font-weight: 600;
+            fill: rgba(255,255,255,0.8); font-weight: 600;
             pointer-events: none;
         }
 
@@ -69,135 +115,112 @@
 
         .district-list-wrapper {
             background: var(--glass-bg); border-radius: 25px; padding: 20px;
-            border: 1px solid rgba(255,255,255,0.1); 
-            max-height: 450px; overflow-y: auto;
+            border: 1px solid rgba(255,255,255,0.1); max-height: 400px; overflow-y: auto;
         }
 
         .district-item-btn {
             display: flex; align-items: center; justify-content: space-between;
             background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05);
-            padding: 10px 15px; border-radius: 12px; cursor: pointer;
+            padding: 12px 15px; border-radius: 12px; cursor: pointer;
             margin-bottom: 8px; transition: var(--transition); color: white;
-            font-size: 14px;
         }
 
         .district-item-btn:hover, .district-item-btn.active-btn {
-            background: var(--win-blue); transform: translateX(5px);
+            background: var(--win-blue); transform: translateX(8px);
         }
 
         .sub-district-panel {
             background: rgba(0, 234, 255, 0.05);
-            border-radius: 25px; padding: 20px;
+            border-radius: 25px; padding: 25px;
             border: 1px solid var(--accent-blue);
-            min-height: 300px;
+            min-height: 350px;
         }
 
         .town-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-            gap: 10px; margin-top: 15px;
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            gap: 12px; margin-top: 15px;
         }
 
         .town-link {
             text-decoration: none; background: rgba(255,255,255,0.05);
-            padding: 10px; border-radius: 10px; font-size: 13px;
+            padding: 12px 10px; border-radius: 12px; font-size: 14px;
             text-align: center; border: 1px solid rgba(255,255,255,0.1);
-            color: var(--white); display: flex; flex-direction: column;
+            color: var(--white); display: flex; flex-direction: column; gap: 5px;
             transition: 0.3s; animation: fadeIn 0.4s ease forwards;
         }
 
         .town-link:hover {
             background: var(--accent-blue); color: var(--primary-dark);
-            transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0, 234, 255, 0.3);
+            transform: translateY(-5px); box-shadow: 0 5px 15px rgba(0, 234, 255, 0.4);
         }
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
-        @media (max-width: 992px) {
-            .dashboard-container { grid-template-columns: 1fr; }
-            .nav-logo span { display: none; }
+        /* ================= Responsive ================= */
+        @media (max-width: 850px) {
+            .navbar { height: auto; flex-direction: column; padding: 10px 5%; gap: 10px; }
+            .logo { font-size: 20px; }
+            .menu { 
+                display: flex !important; width: 100%; overflow-x: auto;
+                padding-bottom: 8px; gap: 12px; justify-content: flex-start;
+                scrollbar-width: none;
+            }
+            .menu::-webkit-scrollbar { display: none; }
+            .menu a { font-size: 15px; white-space: nowrap; padding: 6px 12px; background: rgba(255,255,255,0.1); border-radius: 20px; }
+            .dropdown:hover .dropdown-content { display: none; } /* ซ่อน hover บนมือถือ */
+            
+            .dashboard-container { grid-template-columns: 1fr; padding-top: 20px; }
         }
     </style>
 </head>
 <body>
 
-    <nav class="navbar">
-        <a href="index.html" class="nav-logo">
+    <nav class="navbar" id="mainNavbar">
+        <a href="index.html" class="logo">
             <img src="IM/Adobe Express 2026-03-13 16.31.52.png" alt="Logo">
             <span>ศิวกรแอร์ เซอร์วิส</span>
         </a>
-        <div style="font-size: 12px; color: var(--accent-blue); font-weight: bold;">
-            LIVE DASHBOARD: 15 อำเภอ
+        <div class="menu">
+            <a href="index.html">หน้าแรก</a>
+            
+            <div class="dropdown">
+                <a href="#" class="dropbtn">บริการ <i class="fas fa-chevron-down" style="font-size: 12px; margin-left: 5px;"></i></a>
+                <div class="dropdown-content">
+                    <a href="service-install.html"><i class="fas fa-snowflake"></i> ติดตั้งแอร์ใหม่</a>
+                    <a href="service-clean.html"><i class="fas fa-pump-soap"></i> ล้างแอร์ฆ่าเชื้อ</a>
+                    <a href="service-repair.html"><i class="fas fa-tools"></i> ซ่อมบำรุงด่วน</a>
+                    <a href="service-electric.html"><i class="fas fa-bolt"></i> งานระบบไฟฟ้า</a>
+                    <a href="service-cctv.html"><i class="fas fa-video"></i> กล้องวงจรปิด</a>
+                    <a href="service-parts.html"><i class="fas fa-box-open"></i> จำหน่ายอะไหล่</a>
+                </div>
+            </div>
+
+            <a href="nakhonsawan.html" style="color: var(--accent-blue);">พื้นที่บริการ</a>
+            <a href="licenses.html">ใบอนุญาต</a>
+            <a href="contact.html">ข้อมูลทีมช่าง</a>
         </div>
     </nav>
 
     <div class="dashboard-container">
-        
         <section class="map-section">
             <div class="map-card">
-                <h3 style="color: var(--accent-blue); margin-bottom: 10px;"><i class="fas fa-mouse-pointer"></i> คลิกที่พื้นที่ในแผนที่ได้ทันที</h3>
-                
+                <h3 style="color: var(--accent-blue); margin-bottom: 15px;"><i class="fas fa-map-marked-alt"></i> แผนที่สรุปงานนครสวรรค์ 2026</h3>
                 <svg class="svg-map" viewBox="0 0 800 600">
-                    <g class="map-region" style="cursor:pointer" onclick="updateDisplay('banphot')">
-                        <path id="poly-banphot" class="district-poly" d="M300,50 L450,40 L500,120 L400,180 L280,180 Z" />
-                        <text x="340" y="110" class="map-label">บรรพตพิสัย</text>
-                    </g>
-                    <g class="map-region" style="cursor:pointer" onclick="updateDisplay('mueang')">
-                        <path id="poly-mueang" class="district-poly" d="M400,180 L550,180 L600,300 L450,350 L350,280 Z" />
-                        <text x="440" y="260" class="map-label">เมืองฯ</text>
-                    </g>
-                    <g class="map-region" style="cursor:pointer" onclick="updateDisplay('kaoliao')">
-                        <path id="poly-kaoliao" class="district-poly" d="M420,130 L500,120 L550,180 L400,180 Z" />
-                        <text x="450" y="160" class="map-label" style="font-size:9px;">เก้าเลี้ยว</text>
-                    </g>
-                    <g class="map-region" style="cursor:pointer" onclick="updateDisplay('latyao')">
-                        <path id="poly-latyao" class="district-poly" d="M150,180 L280,180 L350,280 L250,350 L100,300 Z" />
-                        <text x="210" y="260" class="map-label">ลาดยาว</text>
-                    </g>
-                    <g class="map-region" style="cursor:pointer" onclick="updateDisplay('chumsaeng')">
-                        <path id="poly-chumsaeng" class="district-poly" d="M500,40 L650,60 L700,150 L550,180 L500,120 Z" />
-                        <text x="570" y="100" class="map-label">ชุมแสง</text>
-                    </g>
-                    <g class="map-region" style="cursor:pointer" onclick="updateDisplay('takhli')">
-                        <path id="poly-takhli" class="district-poly" d="M500,380 L700,350 L750,550 L550,580 Z" />
-                        <text x="600" y="480" class="map-label">ตาคลี</text>
-                    </g>
-                    <g class="map-region" style="cursor:pointer" onclick="updateDisplay('phayuha')">
-                        <path id="poly-phayuha" class="district-poly" d="M350,350 L500,350 L550,450 L350,480 Z" />
-                        <text x="410" y="420" class="map-label">พยุหะคีรี</text>
-                    </g>
-                    <g class="map-region" style="cursor:pointer" onclick="updateDisplay('tha-tako')">
-                        <path id="poly-tha-tako" class="district-poly" d="M550,180 L720,180 L750,300 L600,300 Z" />
-                        <text x="620" y="240" class="map-label">ท่าตะโก</text>
-                    </g>
-                    <g class="map-region" style="cursor:pointer" onclick="updateDisplay('nong-bua')">
-                        <path id="poly-nong-bua" class="district-poly" d="M650,60 L780,100 L780,250 L720,180 Z" />
-                        <text x="700" y="140" class="map-label">หนองบัว</text>
-                    </g>
-                    <g class="map-region" style="cursor:pointer" onclick="updateDisplay('phaisali')">
-                        <path id="poly-phaisali" class="district-poly" d="M600,300 L750,300 L780,450 L700,350 Z" />
-                        <text x="670" y="380" class="map-label">ไพศาลี</text>
-                    </g>
-                    <g class="map-region" style="cursor:pointer" onclick="updateDisplay('krok-phra')">
-                        <path id="poly-krok-phra" class="district-poly" d="M350,280 L450,350 L350,350 L250,350 Z" />
-                        <text x="330" y="330" class="map-label">โกรกพระ</text>
-                    </g>
-                    <g class="map-region" style="cursor:pointer" onclick="updateDisplay('tak-fa')">
-                        <path id="poly-tak-fa" class="district-poly" d="M550,450 L780,450 L750,550 L550,580 Z" />
-                        <text x="630" y="520" class="map-label">ตากฟ้า</text>
-                    </g>
-                    <g class="map-region" style="cursor:pointer" onclick="updateDisplay('mae-wong')">
-                        <path id="poly-mae-wong" class="district-poly" d="M50,100 L150,180 L100,300 L20,250 Z" />
-                        <text x="60" y="200" class="map-label">แม่วงก์</text>
-                    </g>
-                    <g class="map-region" style="cursor:pointer" onclick="updateDisplay('mae-poen')">
-                        <path id="poly-mae-poen" class="district-poly" d="M20,250 L100,300 L50,400 L10,350 Z" />
-                        <text x="30" y="320" class="map-label">แม่เปิน</text>
-                    </g>
-                    <g class="map-region" style="cursor:pointer" onclick="updateDisplay('chum-ta-bong')">
-                        <path id="poly-chum-ta-bong" class="district-poly" d="M100,300 L250,350 L200,450 L50,400 Z" />
-                        <text x="130" y="380" class="map-label">ชุมตาบง</text>
-                    </g>
+                    <g onclick="updateDisplay('banphot')"><path id="poly-banphot" class="district-poly" d="M300,50 L450,40 L500,120 L400,180 L280,180 Z" /><text x="340" y="110" class="map-label">บรรพตพิสัย</text></g>
+                    <g onclick="updateDisplay('mueang')"><path id="poly-mueang" class="district-poly" d="M400,180 L550,180 L600,300 L450,350 L350,280 Z" /><text x="440" y="260" class="map-label">เมืองฯ</text></g>
+                    <g onclick="updateDisplay('kaoliao')"><path id="poly-kaoliao" class="district-poly" d="M420,130 L500,120 L550,180 L400,180 Z" /><text x="450" y="160" class="map-label" style="font-size:9px;">เก้าเลี้ยว</text></g>
+                    <g onclick="updateDisplay('latyao')"><path id="poly-latyao" class="district-poly" d="M150,180 L280,180 L350,280 L250,350 L100,300 Z" /><text x="210" y="260" class="map-label">ลาดยาว</text></g>
+                    <g onclick="updateDisplay('chumsaeng')"><path id="poly-chumsaeng" class="district-poly" d="M500,40 L650,60 L700,150 L550,180 L500,120 Z" /><text x="570" y="100" class="map-label">ชุมแสง</text></g>
+                    <g onclick="updateDisplay('takhli')"><path id="poly-takhli" class="district-poly" d="M500,380 L700,350 L750,550 L550,580 Z" /><text x="600" y="480" class="map-label">ตาคลี</text></g>
+                    <g onclick="updateDisplay('phayuha')"><path id="poly-phayuha" class="district-poly" d="M350,350 L500,350 L550,450 L350,480 Z" /><text x="410" y="420" class="map-label">พยุหะคีรี</text></g>
+                    <g onclick="updateDisplay('tha-tako')"><path id="poly-tha-tako" class="district-poly" d="M550,180 L720,180 L750,300 L600,300 Z" /><text x="620" y="240" class="map-label">ท่าตะโก</text></g>
+                    <g onclick="updateDisplay('nong-bua')"><path id="poly-nong-bua" class="district-poly" d="M650,60 L780,100 L780,250 L720,180 Z" /><text x="700" y="140" class="map-label">หนองบัว</text></g>
+                    <g onclick="updateDisplay('phaisali')"><path id="poly-phaisali" class="district-poly" d="M600,300 L750,300 L780,450 L700,350 Z" /><text x="670" y="380" class="map-label">ไพศาลี</text></g>
+                    <g onclick="updateDisplay('krok-phra')"><path id="poly-krok-phra" class="district-poly" d="M350,280 L450,350 L350,350 L250,350 Z" /><text x="330" y="330" class="map-label">โกรกพระ</text></g>
+                    <g onclick="updateDisplay('tak-fa')"><path id="poly-tak-fa" class="district-poly" d="M550,450 L780,450 L750,550 L550,580 Z" /><text x="630" y="520" class="map-label">ตากฟ้า</text></g>
+                    <g onclick="updateDisplay('mae-wong')"><path id="poly-mae-wong" class="district-poly" d="M50,100 L150,180 L100,300 L20,250 Z" /><text x="60" y="200" class="map-label">แม่วงก์</text></g>
+                    <g onclick="updateDisplay('mae-poen')"><path id="poly-mae-poen" class="district-poly" d="M20,250 L100,300 L50,400 L10,350 Z" /><text x="30" y="320" class="map-label">แม่เปิน</text></g>
+                    <g onclick="updateDisplay('chum-ta-bong')"><path id="poly-chum-ta-bong" class="district-poly" d="M100,300 L250,350 L200,450 L50,400 Z" /><text x="130" y="380" class="map-label">ชุมตาบง</text></g>
                 </svg>
             </div>
         </section>
@@ -205,10 +228,8 @@
         <aside class="side-panel">
             <div class="district-list-wrapper">
                 <p style="color: var(--accent-blue); margin-bottom: 10px; font-weight: 700;">เลือกอำเภอ</p>
-                <div class="district-list" id="district-btns">
-                    </div>
+                <div class="district-list" id="district-btns"></div>
             </div>
-
             <div class="sub-district-panel">
                 <h4 id="district-title" style="color: var(--accent-blue); margin-bottom: 10px;">ตำบลที่ให้บริการ</h4>
                 <div class="town-grid" id="town-list"></div>
@@ -218,28 +239,27 @@
 
     <script>
         const nakhonSawanData = {
-            "mueang": {name: "เมืองนครสวรรค์", towns: ["ปากน้ำโพ", "วัดไทร", "แควใหญ่", "ตะเคียนเลื่อน", "นครสวรรค์ตก", "นครสวรรค์ออก", "บางม่วง", "กลางแดด", "เกรียงไกร", "หนองปลิง", "หนองกรด", "หนองกระโดน", "บ้านมะเกลือ", "บ้านแก่ง", "พระนอน", "วังมหากัน"]},
-            "krok-phra": {name: "โกรกพระ", towns: ["โกรกพระ", "ยางตาล", "บางมะฝ่อ", "บางประมุง", "นากลาง", "ศาลาแดง", "หาดสูง", "เนินกว้าว", "เนินศาลา"]},
-            "chumsaeng": {name: "ชุมแสง", towns: ["ชุมแสง", "ทับกฤช", "ทับกฤชใต้", "พิกุล", "เกยไชย", "ท่าไม้", "บางไผ่", "หนองกระเจา", "โคกหม้อ", "ไผ่สิงห์", "ฆะมัง", "พันลาน"]},
-            "nong-bua": {name: "หนองบัว", towns: ["หนองบัว", "หนองกลับ", "ธารทหาร", "ห้วยร่วม", "ห้วยถั่วใต้", "ห้วยถั่วเหนือ", "กุดตาเพชร", "วังบ่อ", "หนองลาน"]},
             "banphot": {name: "บรรพตพิสัย", towns: ["ท่างิ้ว", "บางตาหงาย", "หูกวาง", "อ่างทอง", "บ้านแดน", "บางแก้ว", "ตาขีด", "ตาสัง", "ด่านช้าง", "หนองกรด", "หนองตางู", "เจริญผล"]},
+            "mueang": {name: "เมืองนครสวรรค์", towns: ["ปากน้ำโพ", "วัดไทร", "แควใหญ่", "ตะเคียนเลื่อน", "นครสวรรค์ตก", "นครสวรรค์ออก", "บางม่วง", "กลางแดด", "เกรียงไกร", "หนองปลิง", "หนองกรด", "หนองกระโดน", "บ้านมะเกลือ", "บ้านแก่ง", "พระนอน"]},
             "kaoliao": {name: "เก้าเลี้ยว", towns: ["เก้าเลี้ยว", "มหาโพธิ", "หนองเต่า", "เขาทอง", "เขาดิน"]},
-            "takhli": {name: "ตาคลี", towns: ["ตาคลี", "ช่องแค", "จันเสน", "ห้วยหอม", "หนองโพ", "หนองหม้อ", "พรหมนิมิต", "ลาดทิพรส", "สร้อยทอง"]},
-            "tha-tako": {name: "ท่าตะโก", towns: ["ท่าตะโก", "พนมรอก", "หัวถนน", "สายลำโพง", "วังมหากัน", "วังใหญ่", "พนมเศษ", "หนองหลวง", "ดอนคา", "ทำนบ"]},
-            "phaisali": {name: "ไพศาลี", towns: ["ไพศาลี", "โคกเดื่อ", "สำโรงชัย", "วังน้ำลัด", "ตะคร้อ", "โพธิ์ประสาท", "วังข่อย", "นาขอม"]},
-            "phayuha": {name: "พยุหะคีรี", towns: ["พยุหะ", "เนินมะกอก", "นิคมเขาบ่อแก้ว", "ท่าน้ำอ้อย", "ม่วงหัก", "ยางขาว", "ย่านมัทรี", "เขาทอง", "เขากะลา", "สระทะเล", "น้ำทรง"]},
-            "latyao": {name: "ลาดยาว", towns: ["ลาดยาว", "ห้วยน้ำหอม", "วังม้า", "วังเมือง", "สร้อยละคร", "มาบแก", "หนองยาว", "หนองนมวัว", "บ้านไร่", "ศาลเจ้าไก่ต่อ", "สระแก้ว", "ห้วยหอม"]},
-            "tak-fa": {name: "ตากฟ้า", towns: ["ตากฟ้า", "ลำพยนต์", "สุขสำราญ", "หนองพิกุล", "พุนกยูง", "อุดมธัญญา", "เขาชายธง"]},
-            "mae-wong": {name: "แม่วงก์", towns: ["แม่วงก์", "แม่เลย์", "วังซ่าน", "เขาชนกัน", "ปางสวรรค์", "ห้วยน้ำหอม"]},
+            "latyao": {name: "ลาดยาว", towns: ["ลาดยาว", "ห้วยน้ำหอม", "วังม้า", "วังเมือง", "สร้อยละคร", "มาบแก", "หนองยาว", "หนองนมวัว", "บ้านไร่", "ศาลเจ้าไก่ต่อ", "สระแก้ว"]},
+            "chumsaeng": {name: "ชุมแสง", towns: ["ชุมแสง", "ทับกฤช", "พิกุล", "เกยไชย", "ท่าไม้", "บางไผ่", "หนองกระเจา", "โคกหม้อ"]},
+            "takhli": {name: "ตาคลี", towns: ["ตาคลี", "ช่องแค", "จันเสน", "ห้วยหอม", "หนองโพ", "หนองหม้อ", "พรหมนิมิต"]},
+            "phayuha": {name: "พยุหะคีรี", towns: ["พยุหะ", "เนินมะกอก", "ท่าน้ำอ้อย", "ม่วงหัก", "ยางขาว", "ย่านมัทรี", "เขากะลา"]},
+            "tha-tako": {name: "ท่าตะโก", towns: ["ท่าตะโก", "พนมรอก", "หัวถนน", "สายลำโพง", "วังมหากัน", "วังใหญ่"]},
+            "nong-bua": {name: "หนองบัว", towns: ["หนองบัว", "หนองกลับ", "ธารทหาร", "ห้วยร่วม", "วังบ่อ", "หนองลาน"]},
+            "phaisali": {name: "ไพศาลี", towns: ["ไพศาลี", "โคกเดื่อ", "สำโรงชัย", "วังน้ำลัด", "ตะคร้อ", "นาขอม"]},
+            "krok-phra": {name: "โกรกพระ", towns: ["โกรกพระ", "ยางตาล", "บางมะฝ่อ", "บางประมุง", "นากลาง", "ศาลาแดง"]},
+            "tak-fa": {name: "ตากฟ้า", towns: ["ตากฟ้า", "ลำพยนต์", "สุขสำราญ", "หนองพิกุล", "อุดมธัญญา"]},
+            "mae-wong": {name: "แม่วงก์", towns: ["แม่วงก์", "แม่เลย์", "วังซ่าน", "เขาชนกัน", "ปางสวรรค์"]},
             "mae-poen": {name: "แม่เปิน", towns: ["แม่เปิน"]},
-            "chum-ta-bong": {name: "ชุมตาบง", towns: ["ชุมตาบง", "ปางสวรรค์"]}
+            "chum-ta-bong": {name: "ชุมตาบง", towns: ["ชุมตาบง"]}
         };
 
         const districtList = document.getElementById('district-btns');
         const townList = document.getElementById('town-list');
         const districtTitle = document.getElementById('district-title');
 
-        // สร้างปุ่มอำเภอ (ฝั่งขวา)
         Object.keys(nakhonSawanData).forEach(id => {
             const btn = document.createElement('div');
             btn.className = 'district-item-btn';
@@ -249,21 +269,12 @@
             districtList.appendChild(btn);
         });
 
-        // ฟังก์ชันหลักในการอัปเดตการแสดงผล (ใช้ได้ทั้งคลิกที่แผนที่และคลิกที่ปุ่ม)
         function updateDisplay(id) {
-            // ไฮไลท์ปุ่ม
-            document.querySelectorAll('.district-item-btn').forEach(b => {
-                b.classList.toggle('active-btn', b.dataset.target === id);
-            });
+            document.querySelectorAll('.district-item-btn').forEach(b => b.classList.toggle('active-btn', b.dataset.target === id));
+            document.querySelectorAll('.district-poly').forEach(p => p.classList.toggle('selected', p.id === 'poly-' + id));
 
-            // ไฮไลท์แผนที่
-            document.querySelectorAll('.district-poly').forEach(p => {
-                p.classList.toggle('selected', p.id === 'poly-' + id);
-            });
-
-            // อัปเดตรายชื่อตำบล
             const data = nakhonSawanData[id];
-            if (data) {
+            if(data) {
                 districtTitle.innerHTML = `<i class="fas fa-city"></i> อ.${data.name}`;
                 townList.innerHTML = "";
                 data.towns.forEach(town => {
@@ -276,8 +287,19 @@
             }
         }
 
-        // เริ่มต้นที่ "บรรพตพิสัย" เมื่อโหลดหน้าเว็บ
         window.onload = () => updateDisplay('banphot');
+
+        //Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const nav = document.getElementById('mainNavbar');
+            if (window.scrollY > 50) {
+                nav.style.height = '70px';
+                nav.style.background = 'rgba(8, 27, 58, 0.98)';
+            } else {
+                nav.style.height = '100px';
+                nav.style.background = 'rgba(15, 76, 129, 0.95)';
+            }
+        });
     </script>
 </body>
 </html>
