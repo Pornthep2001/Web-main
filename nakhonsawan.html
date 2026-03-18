@@ -44,7 +44,6 @@
         .map-card {
             background: var(--glass-bg); border-radius: 25px; border: 1px solid rgba(255, 255, 255, 0.1);
             padding: 20px; position: relative; box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
-            height: fit-content;
         }
 
         .svg-map { width: 100%; height: auto; filter: drop-shadow(0 0 15px rgba(0, 234, 255, 0.1)); }
@@ -93,22 +92,44 @@
             background: rgba(0, 234, 255, 0.05);
             border-radius: 25px; padding: 25px;
             border: 1px solid var(--accent-blue);
-            min-height: 300px;
+            min-height: 350px;
+            display: flex;
+            flex-direction: column;
         }
 
         .town-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-            gap: 10px; margin-top: 15px;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 12px; margin-top: 20px;
         }
 
-        .town-tag {
+        /* ปุ่มตำบลแบบลิงก์ */
+        .town-link {
+            text-decoration: none;
             background: rgba(255,255,255,0.05);
-            padding: 8px; border-radius: 8px;
-            font-size: 13px; text-align: center;
+            padding: 12px 10px;
+            border-radius: 12px;
+            font-size: 14px;
+            text-align: center;
             border: 1px solid rgba(255,255,255,0.1);
+            color: var(--white);
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            transition: all 0.3s ease;
             animation: fadeIn 0.4s ease forwards;
         }
+
+        .town-link:hover {
+            background: var(--accent-blue);
+            color: var(--primary-dark);
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 234, 255, 0.4);
+            border-color: var(--accent-blue);
+        }
+
+        .town-link i { font-size: 10px; opacity: 0.7; }
+        .town-link strong { font-weight: 600; }
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
@@ -116,6 +137,8 @@
             .dashboard-container { grid-template-columns: 1fr; }
             .nav-logo span { display: none; }
         }
+
+        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
     </style>
 </head>
 <body>
@@ -134,7 +157,7 @@
         
         <section class="map-section">
             <div class="map-card">
-                <h3 style="color: var(--accent-blue); margin-bottom: 15px;"><i class="fas fa-map-marked-alt"></i> แผนที่สรุปงานนครสวรรค์</h3>
+                <h3 style="color: var(--accent-blue); margin-bottom: 15px;"><i class="fas fa-map-marked-alt"></i> แผนที่สรุปงานแยกตำบล</h3>
                 
                 <svg class="svg-map" viewBox="0 0 600 500">
                     <g class="map-region" data-id="banphot"><path id="poly-banphot" class="district-poly" d="M180,50 L320,40 L360,120 L300,180 L200,190 L140,140 Z" /><text x="195" y="115" class="map-label">บรรพตพิสัย</text></g>
@@ -146,12 +169,14 @@
                     <g class="map-region" data-id="phayuha"><path id="poly-phayuha" class="district-poly" d="M250,380 L400,350 L420,450 L300,480 Z" /><text x="310" y="430" class="map-label">พยุหะคีรี</text></g>
                     <g class="map-region" data-id="tha-tako"><path id="poly-tha-tako" class="district-poly" d="M420,160 L550,150 L580,250 L480,250 Z" /><text x="480" y="200" class="map-label">ท่าตะโก</text></g>
                 </svg>
+                
+                <p style="font-size: 11px; opacity: 0.5; margin-top: 10px;">* คลิกที่แผนที่เพื่อสลับเขตอำเภอ</p>
             </div>
         </section>
 
         <aside class="side-panel">
             <div class="district-list-wrapper">
-                <p style="color: var(--accent-blue); margin-bottom: 10px; font-weight: 700; font-size: 14px;">คลิกเลือกอำเภอเพื่อดูตำบล</p>
+                <p style="color: var(--accent-blue); margin-bottom: 10px; font-weight: 700; font-size: 14px;">รายงานแยกรายอำเภอ</p>
                 <div class="district-list">
                     <div class="district-item-btn" data-target="banphot"><span>อ.บรรพตพิสัย</span><i class="fas fa-chevron-right"></i></div>
                     <div class="district-item-btn" data-target="mueang"><span>อ.เมืองนครสวรรค์</span><i class="fas fa-chevron-right"></i></div>
@@ -165,25 +190,55 @@
             </div>
 
             <div class="sub-district-panel" id="town-panel">
-                <h4 id="district-title" style="color: var(--accent-blue);">เลือกอำเภอเพื่อดูประวัติงาน</h4>
+                <h4 id="district-title" style="color: var(--accent-blue); font-size: 18px;">
+                    <i class="fas fa-map-marker-alt"></i> เลือกพื้นที่เพื่อดูตำบล
+                </h4>
+                <p style="font-size: 12px; opacity: 0.6; margin-top: 5px;">คลิกที่ชื่อตำบลเพื่อดูสรุปเคสและผลงานจริง</p>
+                
                 <div class="town-grid" id="town-list">
-                    <p style="font-size: 12px; opacity: 0.5;">ข้อมูลตำบลจะปรากฏที่นี่เมื่อคุณเลือกพื้นที่...</p>
-                </div>
+                    </div>
             </div>
         </aside>
     </div>
 
     <script>
-        // ข้อมูลตำบลทุกอำเภอในนครสวรรค์ (ตัวอย่าง)
+        // ข้อมูลตำบล (ID ต้องตรงกับ data-target และ ID ของ Path แผนที่)
+        // สังเกต: ผมเพิ่ม Case Count (ตัวเลขงาน) เป็นตัวอย่างในแต่ละตำบล
         const nakhonSawanData = {
-            "banphot": ["เจริญผล", "ท่างิ้ว", "บ้านแดน", "บางตาหงาย", "หูกวาง", "ตาสัง", "ด่านช้าง", "หนองกรด", "บางแก้ว"],
-            "mueang": ["ปากน้ำโพ", "วัดไทร", "แควใหญ่", "ตะเคียนเลื่อน", "นครสวรรค์ตก", "นครสวรรค์ออก", "บางม่วง", "หนองปลิง", "เกรียงไกร", "บ้านมะเกลือ"],
-            "kaoliao": ["เก้าเลี้ยว", "มหาโพธิ", "หนองเต่า", "เขาทอง", "เขาดิน"],
-            "latyao": ["ลาดยาว", "หนองยาว", "หนองนมวัว", "ห้วยน้ำหอม", "มาบแก", "ศาลเจ้าไก่ต่อ", "สระแก้ว"],
-            "chumsaeng": ["ชุมแสง", "ทับกฤช", "พิกุล", "เกยไชย", "ท่าไม้", "บางไผ่", "หนองกระเจา"],
-            "takhli": ["ตาคลี", "ช่องแค", "จันเสน", "ห้วยหอม", "หนองโพ", "หนองหม้อ", "พรหมนิมิต"],
-            "phayuha": ["พยุหะ", "เนินมะกอก", "ท่าน้ำอ้อย", "ม่วงหัก", "ยางขาว", "นิคมเขาบ่อแก้ว"],
-            "tha-tako": ["ท่าตะโก", "พนมรอก", "หัวถนน", "สายลำโพง", "วังมหากัน", "วังใหญ่"]
+            "banphot": [
+                {name: "เจริญผล", cases: 145}, {name: "ท่างิ้ว", cases: 88}, {name: "บ้านแดน", cases: 72}, 
+                {name: "บางตาหงาย", cases: 54}, {name: "หูกวาง", cases: 41}, {name: "ตาสัง", cases: 29}, 
+                {name: "ด่านช้าง", cases: 33}, {name: "หนองกรด", cases: 19}, {name: "บางแก้ว", cases: 12}
+            ],
+            "mueang": [
+                {name: "ปากน้ำโพ", cases: 210}, {name: "วัดไทร", cases: 95}, {name: "แควใหญ่", cases: 64}, 
+                {name: "ตะเคียนเลื่อน", cases: 42}, {name: "นครสวรรค์ตก", cases: 88}, {name: "บางม่วง", cases: 51}, 
+                {name: "หนองปลิง", cases: 76}, {name: "เกรียงไกร", cases: 24}
+            ],
+            "kaoliao": [
+                {name: "เก้าเลี้ยว", cases: 65}, {name: "มหาโพธิ", cases: 32}, {name: "หนองเต่า", cases: 28}, 
+                {name: "เขาทอง", cases: 15}, {name: "เขาดิน", cases: 19}
+            ],
+            "latyao": [
+                {name: "ลาดยาว", cases: 74}, {name: "ห้วยน้ำหอม", cases: 21}, {name: "มาบแก", cases: 18}, 
+                {name: "ศาลเจ้าไก่ต่อ", cases: 30}, {name: "สระแก้ว", cases: 25}
+            ],
+            "chumsaeng": [
+                {name: "ชุมแสง", cases: 82}, {name: "ทับกฤช", cases: 34}, {name: "เกยไชย", cases: 22}, 
+                {name: "ท่าไม้", cases: 15}, {name: "หนองกระเจา", cases: 11}
+            ],
+            "takhli": [
+                {name: "ตาคลี", cases: 120}, {name: "ช่องแค", cases: 45}, {name: "จันเสน", cases: 31}, 
+                {name: "ห้วยหอม", cases: 18}, {name: "พรหมนิมิต", cases: 22}
+            ],
+            "phayuha": [
+                {name: "พยุหะ", cases: 54}, {name: "เนินมะกอก", cases: 29}, {name: "ท่าน้ำอ้อย", cases: 18}, 
+                {name: "ยางขาว", cases: 12}, {name: "นิคมเขาบ่อแก้ว", cases: 41}
+            ],
+            "tha-tako": [
+                {name: "ท่าตะโก", cases: 67}, {name: "พนมรอก", cases: 22}, {name: "หัวถนน", cases: 19}, 
+                {name: "สายลำโพง", cases: 14}, {name: "วังมหากัน", cases: 10}
+            ]
         };
 
         const buttons = document.querySelectorAll('.district-item-btn');
@@ -192,48 +247,52 @@
         const districtTitle = document.getElementById('district-title');
 
         function updateDisplay(id) {
-            // 1. จัดการฝั่งปุ่ม
+            // 1. จัดการปุ่มไฮไลท์
             buttons.forEach(b => {
                 b.classList.remove('active-btn');
                 if(b.getAttribute('data-target') === id) b.classList.add('active-btn');
             });
 
-            // 2. จัดการฝั่งแผนที่
+            // 2. จัดการแผนที่ไฮไลท์
             paths.forEach(p => {
                 p.classList.remove('selected');
                 if(p.id === 'poly-' + id) p.classList.add('selected');
             });
 
-            // 3. แสดงชื่อตำบล
-            districtTitle.innerHTML = `<i class="fas fa-city"></i> อ. ${document.querySelector(`[data-target="${id}"] span`).innerText}`;
+            // 3. แสดงรายชื่อตำบล พร้อมลิงก์
+            const currentDistrictName = document.querySelector(`[data-target="${id}"] span`).innerText;
+            districtTitle.innerHTML = `<i class="fas fa-city"></i> ${currentDistrictName}`;
+            
             townList.innerHTML = "";
-            const towns = nakhonSawanData[id] || ["ไม่มีข้อมูล"];
+            const towns = nakhonSawanData[id] || [];
+            
             towns.forEach(town => {
-                const tag = document.createElement('div');
-                tag.className = 'town-tag';
-                tag.innerHTML = `<i class="fas fa-check-circle" style="color:var(--accent-blue)"></i> ต.${town}`;
-                townList.appendChild(tag);
+                const link = document.createElement('a');
+                // กำหนดโครงสร้างลิงก์ เช่น work-latyao.html หรือใช้ Query String
+                // ในที่นี้ผมใช้ตัวอย่างเป็น work-details.html?town=ชื่อตำบล
+                link.href = `work-details.html?district=${id}&town=${town.name}`; 
+                link.className = 'town-link';
+                
+                link.innerHTML = `
+                    <strong>ต.${town.name}</strong>
+                    <span><i class="fas fa-check-circle"></i> ${town.cases} เคส</span>
+                `;
+                townList.appendChild(link);
             });
         }
 
+        // เพิ่ม Event Listeners
         buttons.forEach(btn => {
-            btn.addEventListener('click', () => {
-                updateDisplay(btn.getAttribute('data-target'));
-            });
+            btn.addEventListener('click', () => updateDisplay(btn.getAttribute('data-target')));
         });
 
         paths.forEach(path => {
-            path.addEventListener('click', () => {
-                updateDisplay(path.id.replace('poly-', ''));
-            });
+            path.addEventListener('click', () => updateDisplay(path.id.replace('poly-', '')));
         });
 
-        // เริ่มต้นที่บรรพตพิสัย
+        // เริ่มต้นหน้าเว็บที่ "บรรพตพิสัย"
         window.onload = () => updateDisplay('banphot');
     </script>
 
-    <style>
-        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
-    </style>
 </body>
 </html>
